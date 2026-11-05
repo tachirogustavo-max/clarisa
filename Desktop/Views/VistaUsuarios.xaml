@@ -1,0 +1,55 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Clarisa.Desktop.Views.VistaUsuarios" d:DataContext="{d:DesignInstance Type=diseno:DatosUsuarios, IsDesignTimeCreatable=True}" mc:Ignorable="d">
+ <UserControl.Resources>
+  <DataTemplate x:Key="FormularioCuenta">
+   <StackPanel>
+    <Label Content="_Usuario" Target="{Binding ElementName=CampoUsuario}" Style="{StaticResource Etiqueta}"/>
+    <TextBox x:Name="CampoUsuario" Text="{Binding Formulario.Usuario, UpdateSourceTrigger=PropertyChanged}" MaxLength="40"/>
+    <TextBlock Text="{Binding Formulario[Usuario]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,16"/>
+    <Label Content="_Nombre de la cuenta" Target="{Binding ElementName=CampoNombreCuenta}" Style="{StaticResource Etiqueta}"/>
+    <TextBox x:Name="CampoNombreCuenta" Text="{Binding Formulario.Nombre, UpdateSourceTrigger=PropertyChanged}" MaxLength="80"/>
+    <TextBlock Text="{Binding Formulario[Nombre]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,16"/>
+    <Label Content="Perfil de acceso" Style="{StaticResource Etiqueta}"/>
+    <ComboBox ItemsSource="{Binding Formulario.Perfiles}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formulario.Perfil}" AutomationProperties.Name="Perfil de acceso de la cuenta"/>
+    <TextBlock Text="{Binding Formulario[Perfil]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,16"/>
+    <StackPanel>
+     <StackPanel.Style>
+      <Style TargetType="StackPanel">
+       <Setter Property="Visibility" Value="Collapsed"/>
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding Formulario.EsDocente}" Value="True">
+         <Setter Property="Visibility" Value="Visible"/>
+        </DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </StackPanel.Style>
+     <Label Content="Docente vinculado" Style="{StaticResource Etiqueta}"/>
+     <ComboBox ItemsSource="{Binding Formulario.Docentes}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formulario.Docente}" AutomationProperties.Name="Docente vinculado a la cuenta"/>
+     <TextBlock Text="{Binding Formulario[Docente]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,16"/>
+    </StackPanel>
+    <Label Content="Contraseña" Style="{StaticResource Etiqueta}"/>
+    <controles:CampoClaveSeguro FormularioAsociado="{Binding Formulario}" ClaveCambiada="ActualizarClave"/>
+    <TextBlock Text="Usa una frase de al menos 15 caracteres que puedas recordar." Foreground="{DynamicResource TextoSecundario}" FontSize="12" Margin="0,8,0,0"/>
+    <TextBlock Text="Para conservar la contraseña actual, deja este campo vacío." Foreground="{DynamicResource TextoSecundario}" FontSize="12" Margin="0,8,0,0">
+     <TextBlock.Style>
+      <Style TargetType="TextBlock">
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding Formulario.Nuevo}" Value="True">
+         <Setter Property="Visibility" Value="Collapsed"/>
+        </DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </TextBlock.Style>
+    </TextBlock>
+    <CheckBox Content="Cuenta activa" IsChecked="{Binding Formulario.Activo}" Margin="0,24,0,12"/>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <controles:ListadoCatalogo Editor="{StaticResource FormularioCuenta}">
+  <controles:ListadoCatalogo.Columnas>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Usuario" Binding="{Binding Usuario}" Width="*" MinWidth="140"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Nombre" Binding="{Binding Nombre}" Width="2*" MinWidth="160"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Perfil" Binding="{Binding PerfilVisible}" MinWidth="140" Width="140"/>
+   <DataGridCheckBoxColumn ElementStyle="{StaticResource CasillaConsulta}" Header="Activa" Binding="{Binding Activo}" MinWidth="90" Width="90"/>
+  </controles:ListadoCatalogo.Columnas>
+ </controles:ListadoCatalogo>
+</UserControl>

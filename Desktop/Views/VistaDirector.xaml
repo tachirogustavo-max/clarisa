@@ -1,0 +1,124 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" xmlns:comportamientos="clr-namespace:Clarisa.Desktop.Presentation.Behaviors" x:Class="Clarisa.Desktop.Views.VistaDirector" mc:Ignorable="d" d:DesignWidth="1120" d:DesignHeight="780" d:DataContext="{d:DesignInstance Type=diseno:DatosDirector, IsDesignTimeCreatable=True}" FontFamily="{DynamicResource FuenteInterfaz}" Foreground="{DynamicResource Tinta}" comportamientos:AnimacionEntrada.Activa="True">
+ <Grid Background="White">
+  <Grid.RowDefinitions>
+   <RowDefinition Height="Auto"/>
+   <RowDefinition/>
+   <RowDefinition Height="Auto"/>
+  </Grid.RowDefinitions>
+  <Border Padding="32,20" BorderBrush="{DynamicResource Borde}" BorderThickness="0,0,0,1">
+   <Border.Style><Style TargetType="Border"><Style.Triggers><DataTrigger Binding="{Binding MostrarCabecera, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Border.Style>
+   <Grid>
+    <Grid.ColumnDefinitions>
+     <ColumnDefinition/>
+     <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <Image Source="/Clarisa.Desktop;component/Resources/Identity/logo-liceo.png" Width="146" HorizontalAlignment="Left" Stretch="Uniform"/>
+    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+     <TextBlock Text="Dirección" FontSize="19" FontWeight="SemiBold" TextAlignment="Right"/>
+     <TextBlock Text="Control de estudios" FontSize="12" Margin="0,5,0,0" Foreground="{DynamicResource TextoSecundario}"/>
+    </StackPanel>
+   </Grid>
+  </Border>
+  <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <ScrollViewer.Style>
+    <Style TargetType="ScrollViewer">
+     <Style.Triggers>
+      <DataTrigger Binding="{Binding ConfirmacionVisible}" Value="True">
+       <Setter Property="IsEnabled" Value="False"/>
+      </DataTrigger>
+     </Style.Triggers>
+    </Style>
+   </ScrollViewer.Style>
+   <StackPanel Margin="40,36" MaxWidth="1120">
+    <TextBlock Text="AÑO ESCOLAR" FontSize="11" Foreground="{DynamicResource TextoSecundario}"/>
+    <TextBlock Text="{Binding AnioEscolar}" FontSize="38" FontWeight="SemiBold" Margin="0,6,0,0"/>
+    <TextBlock Text="Gestiona cuándo pueden cargar notas los docentes." FontSize="15" Foreground="{DynamicResource TextoSecundario}" Margin="0,12,0,0"/>
+    <Border BorderBrush="{DynamicResource Borde}" BorderThickness="0,1" Margin="0,36,0,0" Padding="0,28">
+     <ItemsControl ItemsSource="{Binding Lapsos}">
+      <ItemsControl.ItemsPanel>
+       <ItemsPanelTemplate>
+        <UniformGrid Columns="3"/>
+       </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+       <DataTemplate>
+        <Border BorderBrush="{DynamicResource Borde}" BorderThickness="0,0,1,0" Padding="18,0,22,0">
+         <StackPanel>
+          <Grid>
+           <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+           </Grid.ColumnDefinitions>
+           <TextBlock Text="{Binding Orden}" FontFamily="{StaticResource FuenteEditorial}" FontSize="62" Foreground="{DynamicResource AzulInstitucional}"/>
+           <TextBlock Grid.Column="1" Text="ACTUAL" FontSize="10" Foreground="{DynamicResource Acento}" VerticalAlignment="Center">
+            <TextBlock.Style>
+             <Style TargetType="TextBlock">
+              <Style.Triggers>
+               <DataTrigger Binding="{Binding Actual}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed"/>
+               </DataTrigger>
+              </Style.Triggers>
+             </Style>
+            </TextBlock.Style>
+           </TextBlock>
+          </Grid>
+          <TextBlock Text="{Binding Nombre}" FontSize="21" FontWeight="SemiBold" Margin="0,8,0,0"/>
+          <TextBlock Text="{Binding Estado}" FontSize="13" Foreground="{DynamicResource TextoSecundario}" Margin="0,12,0,0"/>
+          <Button Content="{Binding Accion}" Margin="0,24,0,0" HorizontalAlignment="Left" Command="{Binding DataContext.SolicitarCambio, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+           <Button.Style>
+            <Style TargetType="Button" BasedOn="{StaticResource BotonTexto}">
+             <Style.Triggers>
+              <DataTrigger Binding="{Binding SinConfirmar}" Value="True">
+               <Setter Property="Visibility" Value="Collapsed"/>
+              </DataTrigger>
+             </Style.Triggers>
+            </Style>
+           </Button.Style>
+          </Button>
+          <Button Content="Comprobar estado" Margin="0,24,0,0" HorizontalAlignment="Left" Click="ComprobarEstado">
+           <Button.Style>
+            <Style TargetType="Button" BasedOn="{StaticResource BotonTexto}">
+             <Setter Property="Visibility" Value="Collapsed"/>
+             <Style.Triggers>
+              <DataTrigger Binding="{Binding SinConfirmar}" Value="True">
+               <Setter Property="Visibility" Value="Visible"/>
+              </DataTrigger>
+             </Style.Triggers>
+            </Style>
+           </Button.Style>
+          </Button>
+         </StackPanel>
+        </Border>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+    </Border>
+    <Border Background="#F1F5EB" Padding="18" Margin="0,28,0,0" CornerRadius="5">
+     <TextBlock Text="El momento actual y la carga de notas son independientes. Seleccionar un momento no abre su carga." FontSize="13"/>
+    </Border>
+   </StackPanel>
+  </ScrollViewer>
+  <TextBlock Grid.Row="2" Text="{Binding Mensaje}" Foreground="{DynamicResource AzulInstitucional}" Margin="40,14,40,24" AutomationProperties.LiveSetting="Assertive"/>
+  <Grid Grid.RowSpan="3" Background="#7018392A">
+   <Grid.Style>
+    <Style TargetType="Grid">
+     <Style.Triggers>
+      <DataTrigger Binding="{Binding ConfirmacionVisible}" Value="False">
+       <Setter Property="Visibility" Value="Collapsed"/>
+      </DataTrigger>
+     </Style.Triggers>
+    </Style>
+   </Grid.Style>
+   <Border Background="White" CornerRadius="10" Padding="32" MaxWidth="500" Margin="24" VerticalAlignment="Center" KeyboardNavigation.TabNavigation="Cycle" PreviewKeyDown="TeclasConfirmacion">
+    <StackPanel>
+     <TextBlock Text="{Binding TituloConfirmacion}" FontSize="24" FontWeight="SemiBold"/>
+     <TextBlock Text="{Binding TextoConfirmacion}" FontSize="15" Foreground="{DynamicResource TextoSecundario}" Margin="0,18,0,0"/>
+     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,28,0,0">
+      <Button x:Name="VolverConfirmacion" Content="Volver" Style="{StaticResource BotonTexto}" Command="{Binding CancelarCambio}" Margin="0,0,12,0"/>
+      <Button Content="{Binding TextoAccion}" IsEnabled="{Binding PuedeConfirmar}" Style="{StaticResource BotonPrincipal}" Click="Confirmar"/>
+     </StackPanel>
+    </StackPanel>
+   </Border>
+  </Grid>
+ </Grid>
+</UserControl>

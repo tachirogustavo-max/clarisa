@@ -1,0 +1,86 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" xmlns:formas="clr-namespace:Clarisa.Desktop.Presentation.Forms" xmlns:conv="clr-namespace:Clarisa.Desktop.Presentation.Converters" xmlns:foco="clr-namespace:Clarisa.Desktop.Presentation.Behaviors" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Clarisa.Desktop.Views.VistaPoliticaAcademica" Loaded="Cargar" d:DataContext="{d:DesignInstance Type=diseno:DatosPoliticaAcademica, IsDesignTimeCreatable=True}" d:DesignWidth="1100" d:DesignHeight="780" mc:Ignorable="d">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Visible"/>
+  <conv:Negacion x:Key="Invertir"/>
+  <conv:OcultarSiVerdadero x:Key="Ocultar"/>
+ </UserControl.Resources>
+ <Grid Background="White">
+  <Grid.RowDefinitions>
+   <RowDefinition Height="Auto"/>
+   <RowDefinition/>
+   <RowDefinition Height="Auto"/>
+  </Grid.RowDefinitions>
+  <StackPanel Margin="32,18,32,6">
+   <TextBlock Text="Cada año escolar tiene sus reglas. Lo que dejes sin definir queda pendiente y la definitiva no se calcula." TextWrapping="Wrap" Foreground="{DynamicResource TextoSecundario}" Margin="0,0,0,12"/>
+   <WrapPanel IsEnabled="{Binding Ocupado, Converter={StaticResource Invertir}}">
+    <StackPanel Width="200" Margin="0,0,16,12"><Label Content="Año escolar" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Anio}"/><ComboBox x:Name="Anio" ItemsSource="{Binding Anios}" DisplayMemberPath="Nombre" SelectedItem="{Binding Anio}" AutomationProperties.Name="Año escolar de la política"/></StackPanel>
+    <Button Content="Consultar versiones" Style="{StaticResource BotonTexto}" Click="Consultar" VerticalAlignment="Bottom" Margin="0,0,16,12"/>
+    <Button Content="Crear borrador" Style="{StaticResource BotonTexto}" Click="CrearBorrador" VerticalAlignment="Bottom" Margin="0,0,0,12" ToolTip="Si hay una política vigente, el borrador parte de sus reglas."/>
+   </WrapPanel>
+  </StackPanel>
+  <Grid Grid.Row="1" Margin="32,0,32,0">
+   <Grid.ColumnDefinitions>
+    <ColumnDefinition Width="2*" MinWidth="260"/>
+    <ColumnDefinition Width="3*" MinWidth="380"/>
+   </Grid.ColumnDefinitions>
+   <DataGrid ItemsSource="{Binding Versiones}" SelectedItem="{Binding Seleccionada}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" AutomationProperties.Name="Versiones de la política del año" Margin="0,0,16,0">
+    <DataGrid.Columns>
+     <DataGridTextColumn Header="N.º" Binding="{Binding Numero}" Width="50" ElementStyle="{StaticResource TextoTabla}"/>
+     <DataGridTextColumn Header="Estado" Binding="{Binding EstadoTexto}" Width="110" ElementStyle="{StaticResource TextoTabla}"/>
+     <DataGridTextColumn Header="Situación" Binding="{Binding Resumen}" Width="*" ElementStyle="{StaticResource TextoTabla}"/>
+    </DataGrid.Columns>
+   </DataGrid>
+   <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+    <StackPanel>
+     <TextBlock Text="{Binding Detalle}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,12"/>
+     <TextBlock Text="Las versiones vigentes y reemplazadas no se editan: para cambiar reglas crea un borrador nuevo." TextWrapping="Wrap" Foreground="{DynamicResource TextoSecundario}" Visibility="{Binding EditandoBorrador, Converter={StaticResource Ocultar}}"/>
+     <StackPanel DataContext="{Binding Formulario}" Visibility="{Binding DataContext.EditandoBorrador, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource Visible}}" IsEnabled="{Binding DataContext.Ocupado, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource Invertir}}">
+      <Label Content="Decimales de las notas de cada momento" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Captura}"/>
+      <ComboBox x:Name="Captura" ItemsSource="{x:Static formas:FormularioPolitica.Decimales}" DisplayMemberPath="Nombre" SelectedItem="{Binding DecimalesCaptura}"/>
+      <Label Content="Decimales de la definitiva" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Resultado}" Margin="0,12,0,0"/>
+      <ComboBox x:Name="Resultado" ItemsSource="{x:Static formas:FormularioPolitica.Decimales}" DisplayMemberPath="Nombre" SelectedItem="{Binding DecimalesResultado}"/>
+      <Label Content="Cálculo de la definitiva" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Formula}" Margin="0,12,0,0"/>
+      <ComboBox x:Name="Formula" ItemsSource="{x:Static formas:FormularioPolitica.Formulas}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formula}"/>
+      <WrapPanel Visibility="{Binding Ponderada, Converter={StaticResource Visible}}" Margin="0,8,0,0">
+       <StackPanel Width="110" Margin="0,0,12,0"><Label Content="Peso momento 1" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Peso1}"/><TextBox x:Name="Peso1" Text="{Binding PesoLapso1, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" MaxLength="6"/><TextBlock Text="{Binding [PesoLapso1]}" Style="{StaticResource ErrorCampo}"/></StackPanel>
+       <StackPanel Width="110" Margin="0,0,12,0"><Label Content="Peso momento 2" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Peso2}"/><TextBox x:Name="Peso2" Text="{Binding PesoLapso2, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" MaxLength="6"/><TextBlock Text="{Binding [PesoLapso2]}" Style="{StaticResource ErrorCampo}"/></StackPanel>
+       <StackPanel Width="150"><Label Content="Peso momento 3" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Peso3}"/><TextBox x:Name="Peso3" Text="{Binding PesoLapso3, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" MaxLength="6"/><TextBlock Text="{Binding [PesoLapso3]}" Style="{StaticResource ErrorCampo}" TextWrapping="Wrap"/></StackPanel>
+      </WrapPanel>
+      <Label Content="Redondeo de la definitiva" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Redondeo}" Margin="0,12,0,0"/>
+      <ComboBox x:Name="Redondeo" ItemsSource="{x:Static formas:FormularioPolitica.Redondeos}" DisplayMemberPath="Nombre" SelectedItem="{Binding Redondeo}"/>
+      <Label Content="Si un momento está exonerado (EX)" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Exonerado}" Margin="0,12,0,0"/>
+      <ComboBox x:Name="Exonerado" ItemsSource="{x:Static formas:FormularioPolitica.Exoneraciones}" DisplayMemberPath="Nombre" SelectedItem="{Binding Exonerado}"/>
+      <Label Content="Nota mínima aprobatoria · opcional, informativa" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Aprobatoria}" Margin="0,12,0,0"/>
+      <TextBox x:Name="Aprobatoria" Text="{Binding NotaAprobatoria, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" MaxLength="5" Width="120" HorizontalAlignment="Left"/>
+      <TextBlock Text="{Binding [NotaAprobatoria]}" Style="{StaticResource ErrorCampo}"/>
+      <Label Content="Motivo del cambio" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Motivo}" Margin="0,12,0,0"/>
+      <TextBox x:Name="Motivo" Text="{Binding Motivo, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" MaxLength="200"/>
+      <TextBlock Text="{Binding [Motivo]}" Style="{StaticResource ErrorCampo}"/>
+      <TextBlock Text="Las letras no se convierten en números. Si falta una nota, la definitiva queda pendiente." TextWrapping="Wrap" Foreground="{DynamicResource TextoSecundario}" Margin="0,8,0,0"/>
+      <WrapPanel Margin="0,16,0,16">
+       <Button Content="Guardar borrador" Style="{StaticResource BotonTexto}" Click="Guardar" Margin="0,0,12,0"/>
+       <Button Content="Activar…" Style="{StaticResource BotonPrincipal}" Click="PedirActivacion"/>
+      </WrapPanel>
+     </StackPanel>
+    </StackPanel>
+   </ScrollViewer>
+  </Grid>
+  <TextBlock Grid.Row="2" Text="{Binding Mensaje}" Margin="32,14" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite">
+   <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding MensajeEsError}" Value="True"><Setter Property="Foreground" Value="{DynamicResource Error}"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+  </TextBlock>
+  <Grid Grid.RowSpan="3" Background="#88173529" foco:FocoModal.Activo="{Binding ConfirmacionVisible}" Visibility="{Binding ConfirmacionVisible, Converter={StaticResource Visible}}">
+   <Border Background="White" CornerRadius="12" Padding="30" Margin="24" MaxWidth="520" VerticalAlignment="Center" KeyboardNavigation.TabNavigation="Cycle">
+    <StackPanel>
+     <TextBlock Text="Activar la política" FontSize="27" FontFamily="{DynamicResource FuenteEditorial}"/>
+     <TextBlock Text="Sustituye a la vigente del año. No abre ni cierra la carga de notas y no cambia resultados ya cerrados." TextWrapping="Wrap" Foreground="{DynamicResource TextoSecundario}" Margin="0,12,0,12"/>
+     <Label Content="Motivo de la activación (por ejemplo, el acta)" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=MotivoActivacion}"/>
+     <TextBox x:Name="MotivoActivacion" Text="{Binding MotivoActivacion, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"/>
+     <WrapPanel HorizontalAlignment="Right" Margin="0,22,0,0">
+      <Button Content="Volver" Style="{StaticResource BotonTexto}" Click="CancelarActivacion" Margin="0,0,12,0" IsCancel="True"/>
+      <Button Content="Activar política" Style="{StaticResource BotonPrincipal}" Click="Activar" IsEnabled="{Binding Ocupado, Converter={StaticResource Invertir}}"/>
+     </WrapPanel>
+    </StackPanel>
+   </Border>
+  </Grid>
+ </Grid>
+</UserControl>

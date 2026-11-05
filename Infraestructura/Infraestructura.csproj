@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aplicacion\Aplicacion.csproj" />
+    <ProjectReference Include="..\Dominio\Dominio.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySqlConnector" Version="2.6.2" />
+    <PackageReference Include="Microsoft.Win32.Registry.AccessControl" Version="10.0.13" />
+    <EmbeddedResource Include="Persistence\Esquema\Migraciones\*.sql" LogicalName="Clarisa.Migraciones.%(Filename)%(Extension)" />
+    <PackageReference Include="PDFsharp-MigraDoc" Version="6.2.4" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Documentos/Recursos/*.ttf" LogicalName="Clarisa.Informes.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Documentos/Recursos/logo-liceo.png" LogicalName="Clarisa.Informes.logo-liceo.png" />
+    <EmbeddedResource Include="Documentos/Recursos/logo-ministerio.png" LogicalName="Clarisa.Informes.logo-ministerio.png" />
+    <None Update="Documentos/Recursos/*.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+
+  <PropertyGroup>
+    <AssemblyName>Clarisa.Infrastructure</AssemblyName>
+    <RootNamespace>Clarisa.Infrastructure</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

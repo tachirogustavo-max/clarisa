@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Clarisa.Setup</AssemblyName>
+    <RootNamespace>Clarisa.Setup</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>../Desktop/Resources/Identity/clarisa.ico</ApplicationIcon>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(RutaHuellaPaquete)" LogicalName="Clarisa.Setup.HuellaPaquete" Condition="'$(RutaHuellaPaquete)' != ''" />
+    <ProjectReference Include="..\Instalacion\Instalacion.csproj" />
+    <Resource Include="../Desktop/Resources/Identity/clarisa.ico" Link="Resources/clarisa.ico" />
+    <Resource Include="../Desktop/Resources/Identity/logo-liceo.png" Link="Resources/logo-liceo.png" />
+    <Resource Include="../Desktop/Resources/Fonts/*.ttf" Link="Resources/Fonts/%(Filename)%(Extension)" />
+    <None Include="../Desktop/Resources/Fonts/*-OFL.txt" Link="Licencias/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

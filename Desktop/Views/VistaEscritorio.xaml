@@ -1,0 +1,115 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" xmlns:modelos="clr-namespace:Clarisa.Desktop.Presentation.Models" xmlns:vistas="clr-namespace:Clarisa.Desktop.Views" xmlns:convertidores="clr-namespace:Clarisa.Desktop.Presentation.Converters" x:Class="Clarisa.Desktop.Views.VistaEscritorio" FontFamily="{DynamicResource FuenteInterfaz}" Foreground="{DynamicResource Tinta}" Background="White">
+  <UserControl.Resources>
+    <convertidores:AnchoCompacto x:Key="AnchoCompacto"/>
+    <DataTemplate DataType="{x:Type modelos:ModeloPersonas}">
+      <vistas:VistaPersonas/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloMaterias}">
+      <vistas:VistaMaterias/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloEscalaAnual}">
+      <vistas:VistaEscalaAnual/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloPlanEstudios}">
+      <vistas:VistaPlanEstudios/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloPoliticaAcademica}">
+      <vistas:VistaPoliticaAcademica/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloCierresResultados}">
+      <vistas:VistaCierresResultados/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloFirmantes}">
+      <vistas:VistaFirmantes/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloAnios}">
+      <vistas:VistaAnios/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloGrados}">
+      <vistas:VistaGrados/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloSecciones}">
+      <vistas:VistaSecciones/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloBoletines}">
+      <vistas:VistaBoletines/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloReportes}">
+      <vistas:VistaReportes/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloUsuarios}">
+      <vistas:VistaUsuarios/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloRespaldos}">
+      <vistas:VistaRespaldos/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloAsignaciones}">
+      <vistas:VistaAsignaciones/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloInscripciones}">
+      <vistas:VistaInscripciones/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloLapsos}">
+      <vistas:VistaLapsos/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloArea}">
+      <vistas:VistaArea/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloMisMaterias}">
+      <vistas:VistaMisMaterias/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloVentanas}">
+      <vistas:VistaVentanas/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloDirector}">
+      <vistas:VistaDirector/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type modelos:ModeloPlanilla}">
+      <vistas:VistaPlanilla/>
+    </DataTemplate>
+  </UserControl.Resources>
+  <UserControl.Tag>
+    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" Converter="{StaticResource AnchoCompacto}"/>
+  </UserControl.Tag>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition>
+        <ColumnDefinition.Style>
+          <Style TargetType="ColumnDefinition">
+            <Setter Property="Width" Value="220"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                <Setter Property="Width" Value="76"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </ColumnDefinition.Style>
+      </ColumnDefinition>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <controles:MenuLateral x:Name="MenuPrincipal" EsAdministracion="{Binding EsAdministracion}" ModuloActual="{Binding ModuloActual, Mode=OneWay}" NombreUsuario="{Binding NombreUsuario}" IsEnabled="{Binding PuedeCerrarSesion}" NavegacionSolicitada="Navegar" CuentaSolicitada="AbrirCuenta" SalidaSolicitada="Salir" Compacto="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+    <Grid Grid.Column="1">
+      <ContentControl x:Name="ContenidoModulo" Content="{Binding Contenido}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <ContentControl.Style>
+          <Style TargetType="ContentControl">
+            <Setter Property="IsEnabled" Value="{Binding PuedeCerrarSesion}"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Visibility, ElementName=PanelGuia}" Value="Visible">
+                <Setter Property="IsEnabled" Value="False"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding Visibility, ElementName=PanelCuenta}" Value="Visible">
+                <Setter Property="IsEnabled" Value="False"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </ContentControl.Style>
+      </ContentControl>
+      <Grid x:Name="PanelGuia" Background="#88173529" Visibility="Collapsed" KeyboardNavigation.TabNavigation="Cycle">
+        <vistas:VistaGuiaUso CierreSolicitado="CerrarGuia"/>
+      </Grid>
+      <Grid x:Name="PanelCuenta" Background="#88173529" Visibility="Collapsed" KeyboardNavigation.TabNavigation="Cycle">
+        <vistas:VistaClavePropia x:Name="FormularioClave" DataContext="{Binding CambioClave}" CierreSolicitado="CerrarCuenta" SalidaSolicitada="SalirTrasClave"/>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

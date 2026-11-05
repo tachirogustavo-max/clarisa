@@ -1,0 +1,25 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Clarisa.Desktop.Views.VistaAnios" d:DataContext="{d:DesignInstance Type=diseno:DatosAnios, IsDesignTimeCreatable=True}" mc:Ignorable="d">
+ <UserControl.Resources>
+  <DataTemplate x:Key="FormularioAnio">
+   <StackPanel>
+    <Label Content="_Nombre del año escolar" Target="{Binding ElementName=CampoAnio}" Style="{StaticResource Etiqueta}"/>
+    <TextBox x:Name="CampoAnio" Text="{Binding Formulario.Nombre, UpdateSourceTrigger=PropertyChanged}" MaxLength="40"/>
+    <TextBlock Text="{Binding Formulario[Nombre]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+    <Label Content="Fecha de inicio" Style="{StaticResource Etiqueta}"/>
+    <DatePicker SelectedDate="{Binding Formulario.Inicio}" AutomationProperties.Name="Fecha de inicio del año escolar"/>
+    <TextBlock Text="{Binding Formulario[Inicio]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+    <Label Content="Fecha de finalización" Style="{StaticResource Etiqueta}"/>
+    <DatePicker SelectedDate="{Binding Formulario.Fin}" AutomationProperties.Name="Fecha de finalización del año escolar"/>
+    <TextBlock Text="{Binding Formulario[Fin]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+    <TextBlock Text="La carga de notas se habilita por separado para cada momento." Foreground="{DynamicResource TextoSecundario}"/>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <controles:ListadoCatalogo Editor="{StaticResource FormularioAnio}">
+  <controles:ListadoCatalogo.Columnas>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Año escolar" Binding="{Binding Nombre}" Width="*" MinWidth="160"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Inicio" Binding="{Binding Inicio, StringFormat=dd/MM/yyyy}" MinWidth="160" Width="160"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Finalización" Binding="{Binding Fin, StringFormat=dd/MM/yyyy}" MinWidth="160" Width="160"/>
+  </controles:ListadoCatalogo.Columnas>
+ </controles:ListadoCatalogo>
+</UserControl>

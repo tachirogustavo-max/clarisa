@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Clarisa.Instalador</AssemblyName>
+    <RootNamespace>Clarisa.Instalador</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <StartupObject>Clarisa.Instalador.Programa</StartupObject>
+    <ApplicationIcon>../Desktop/Resources/Identity/clarisa.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- La carpeta del instalador comprimida; la agrega el empaquetado con -p:RutaContenido=<archivo .zip>. -->
+    <EmbeddedResource Include="$(RutaContenido)" LogicalName="Clarisa.Instalador.Contenido.zip" Condition="'$(RutaContenido)' != ''" />
+    <Resource Include="../Desktop/Resources/Identity/logo-liceo.png" Link="Recursos/logo-liceo.png" />
+  </ItemGroup>
+</Project>

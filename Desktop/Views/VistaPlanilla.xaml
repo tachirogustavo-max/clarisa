@@ -1,0 +1,255 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" xmlns:comportamientos="clr-namespace:Clarisa.Desktop.Presentation.Behaviors" x:Class="Clarisa.Desktop.Views.VistaPlanilla" mc:Ignorable="d" d:DesignWidth="1120" d:DesignHeight="780" d:DataContext="{d:DesignInstance Type=diseno:DatosPlanilla, IsDesignTimeCreatable=True}" FontFamily="{DynamicResource FuenteInterfaz}" Foreground="{DynamicResource Tinta}" PreviewKeyDown="TeclasPlanilla" comportamientos:AnimacionEntrada.Activa="True">
+ <UserControl.Resources>
+  <Style x:Key="EditorNota" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+   <Setter Property="IsReadOnly" Value="True"/>
+   <Setter Property="Width" Value="82"/>
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="HorizontalAlignment" Value="Left"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="FontSize" Value="17"/>
+   <Setter Property="Margin" Value="0,2"/>
+   <Setter Property="ToolTip" Value="{Binding Error}"/>
+   <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
+   <EventSetter Event="PreviewKeyDown" Handler="NavegarNota"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding DataContext.PuedeEditar, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+     <Setter Property="IsReadOnly" Value="False"/>
+    </DataTrigger>
+    <DataTrigger Binding="{Binding EditarNumero}" Value="False"><Setter Property="IsReadOnly" Value="True"/><Setter Property="Opacity" Value="0.5"/></DataTrigger>
+    <DataTrigger Binding="{Binding TieneError}" Value="True">
+     <Setter Property="BorderBrush" Value="{DynamicResource Error}"/>
+    </DataTrigger>
+    <DataTrigger Binding="{Binding TieneError}" Value="False">
+     <Setter Property="ToolTip" Value="{x:Null}"/>
+    </DataTrigger>
+   </Style.Triggers>
+  </Style>
+  <Style x:Key="EditorInasistencias" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+   <Setter Property="IsReadOnly" Value="True"/>
+   <Setter Property="Width" Value="82"/>
+   <Setter Property="TextAlignment" Value="Center"/>
+   <Setter Property="HorizontalAlignment" Value="Left"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="FontSize" Value="17"/>
+   <Setter Property="Margin" Value="0,2"/>
+   <Setter Property="ToolTip" Value="{Binding Error}"/>
+   <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
+   <EventSetter Event="PreviewKeyDown" Handler="NavegarNota"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding DataContext.PuedeEditar, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+     <Setter Property="IsReadOnly" Value="False"/>
+    </DataTrigger>
+    <DataTrigger Binding="{Binding EditarInasistencias}" Value="False"><Setter Property="IsReadOnly" Value="True"/><Setter Property="Opacity" Value="0.5"/></DataTrigger>
+    <DataTrigger Binding="{Binding TieneError}" Value="True">
+     <Setter Property="BorderBrush" Value="{DynamicResource Error}"/>
+    </DataTrigger>
+    <DataTrigger Binding="{Binding TieneError}" Value="False">
+     <Setter Property="ToolTip" Value="{x:Null}"/>
+    </DataTrigger>
+   </Style.Triggers>
+  </Style>
+  <Style TargetType="DataGridColumnHeader">
+   <Setter Property="Background" Value="#EDF3ED"/>
+   <Setter Property="Foreground" Value="{DynamicResource Tinta}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/>
+   <Setter Property="Padding" Value="14,9"/>
+   <Setter Property="BorderThickness" Value="0,0,0,1"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource Borde}"/>
+  </Style>
+  <Style TargetType="DataGridCell">
+   <Setter Property="IsTabStop" Value="False"/>
+   <Setter Property="BorderThickness" Value="0"/>
+   <Setter Property="Foreground" Value="{DynamicResource Tinta}"/>
+   <Setter Property="Padding" Value="14,2"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="DataGridCell">
+      <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+       <ContentPresenter VerticalAlignment="Center"/>
+      </Border>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+   <Style.Triggers>
+    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+     <Setter Property="Background" Value="#E7EEDC"/>
+    </Trigger>
+   </Style.Triggers>
+  </Style>
+ </UserControl.Resources>
+ <Grid Background="White">
+  <Grid x:Name="ContenidoPlanilla" Margin="32,26,32,20">
+   <Grid.Style><Style TargetType="Grid"><Style.Triggers><DataTrigger Binding="{Binding Comparador.Visible}" Value="True"><Setter Property="IsEnabled" Value="False"/></DataTrigger><DataTrigger Binding="{Binding Exoneracion.Visible}" Value="True"><Setter Property="IsEnabled" Value="False"/></DataTrigger></Style.Triggers></Style></Grid.Style>
+   <Grid.RowDefinitions>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition Height="Auto"/>
+    <RowDefinition/>
+    <RowDefinition Height="Auto"/>
+   </Grid.RowDefinitions>
+   <TextBlock Text="Mis materias / Calificaciones" Visibility="Collapsed" FontSize="12" Foreground="{DynamicResource TextoSecundario}"/>
+   <Grid Grid.Row="1" Margin="0">
+    <Grid.ColumnDefinitions>
+     <ColumnDefinition/>
+     <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <StackPanel>
+     <TextBlock Text="{Binding Materia}" FontFamily="{DynamicResource FuenteEditorial}" FontSize="33"/>
+     <TextBlock Text="{Binding Seccion}" Foreground="{DynamicResource TextoSecundario}" Margin="0,6,0,0"/>
+    </StackPanel>
+    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="18,0,0,0">
+     <TextBlock Text="{Binding Lapso}" FontWeight="SemiBold" TextAlignment="Right"/>
+     <TextBlock Text="{Binding EstadoCarga}" FontSize="12" TextAlignment="Right" Margin="0,6,0,0">
+      <TextBlock.Style>
+       <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource Acento}"/>
+        <Style.Triggers>
+         <DataTrigger Binding="{Binding CargaPermitida}" Value="False">
+          <Setter Property="Foreground" Value="{DynamicResource TextoSecundario}"/>
+         </DataTrigger>
+        </Style.Triggers>
+       </Style>
+      </TextBlock.Style>
+     </TextBlock>
+    </StackPanel>
+   </Grid>
+   <Grid Grid.Row="2" Margin="0,20,0,14">
+    <Grid.ColumnDefinitions>
+     <ColumnDefinition/>
+     <ColumnDefinition Width="180"/>
+     <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    <StackPanel Margin="0,0,14,0">
+     <Label Content="_Buscar estudiante" Target="{Binding ElementName=CampoBusqueda}" Style="{StaticResource Etiqueta}"/>
+     <TextBox x:Name="CampoBusqueda" Text="{Binding Busqueda, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Buscar estudiante por nombre o cédula" ToolTip="Nombre o cédula"/>
+    </StackPanel>
+    <StackPanel Grid.Column="1" Margin="0,0,14,0">
+     <Label Content="Mostrar" Style="{StaticResource Etiqueta}"/>
+     <ComboBox ItemsSource="{Binding OpcionesFiltro}" DisplayMemberPath="Texto" SelectedItem="{Binding FiltroSeleccionado}" MinHeight="44" AutomationProperties.Name="Filtrar notas por estado"/>
+    </StackPanel>
+    <TextBlock Grid.Column="2" Text="{Binding TextoPendientes}" VerticalAlignment="Bottom" Margin="0,0,0,14" Foreground="{DynamicResource TextoSecundario}"/>
+   </Grid>
+   <Border Grid.Row="3" Background="#F1F5EB" Padding="10" Margin="0,0,0,12" CornerRadius="5">
+    <TextBlock Text="{Binding Instruccion}" FontSize="12"/>
+   </Border>
+   <DataGrid x:Name="TablaNotas" Grid.Row="4" ItemsSource="{Binding FilasVisibles}" SelectedItem="{Binding FilaSeleccionada}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" HeadersVisibility="Column" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#E7ECE4" BorderBrush="{DynamicResource Borde}" BorderThickness="1" Background="White" RowBackground="White" AlternatingRowBackground="#FAFCF8" RowHeaderWidth="0" SelectionUnit="Cell" EnableRowVirtualization="True" CanUserResizeRows="False" FrozenColumnCount="1" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    <DataGrid.Columns>
+     <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Estudiante" Binding="{Binding Estudiante}" Width="2*" IsReadOnly="True" MinWidth="180"/>
+     <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Cédula" Binding="{Binding Cedula}" Width="*" IsReadOnly="True" MinWidth="120"/>
+     <DataGridTemplateColumn x:Name="ColumnaNumerica" Header="Nota del momento" Width="140" MinWidth="140">
+      <DataGridTemplateColumn.CellTemplate>
+       <DataTemplate>
+        <TextBox Style="{StaticResource EditorNota}" Text="{Binding Texto, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" AutomationProperties.Name="{Binding Estudiante, StringFormat='Nota de {0}'}" AutomationProperties.HelpText="{Binding Error}"/>
+       </DataTemplate>
+      </DataGridTemplateColumn.CellTemplate>
+     </DataGridTemplateColumn>
+     <DataGridTemplateColumn x:Name="ColumnaLetra" Header="Evaluación" Width="160" MinWidth="160">
+      <DataGridTemplateColumn.CellTemplate>
+       <DataTemplate>
+        <StackPanel>
+         <Grid>
+          <ComboBox ItemsSource="{Binding Letras}" SelectedItem="{Binding Letra, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Letra de evaluación">
+           <ComboBox.Style><Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Triggers><MultiDataTrigger><MultiDataTrigger.Conditions>
+             <Condition Binding="{Binding EditarLetra}" Value="True"/>
+             <Condition Binding="{Binding DataContext.PuedeEditar, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True"/>
+            </MultiDataTrigger.Conditions><Setter Property="IsEnabled" Value="True"/></MultiDataTrigger></Style.Triggers>
+           </Style></ComboBox.Style>
+          </ComboBox>
+          <TextBlock IsHitTestVisible="False" VerticalAlignment="Center" Margin="12,0,28,0" Foreground="{DynamicResource TextoSecundario}">
+           <TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Text" Value="Pendiente"/><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding Letra}" Value="{x:Null}"><Setter Property="Visibility" Value="Visible"/></DataTrigger><DataTrigger Binding="{Binding Exonerada}" Value="True"><Setter Property="Text" Value="EX"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+          </TextBlock>
+         </Grid>
+         <Button Content="Dejar pendiente" Click="DejarPendiente" FontSize="11" Margin="0,3,0,0" Padding="4" MinHeight="26" IsEnabled="{Binding DataContext.PuedeEditar, RelativeSource={RelativeSource AncestorType=UserControl}}">
+          <Button.Style><Style TargetType="Button" BasedOn="{StaticResource BotonTexto}"><Style.Triggers><DataTrigger Binding="{Binding EditarLetra}" Value="False"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Button.Style>
+         </Button>
+        </StackPanel>
+       </DataTemplate>
+      </DataGridTemplateColumn.CellTemplate>
+     </DataGridTemplateColumn>
+     <DataGridTemplateColumn Header="Inasistencias" Width="130" MinWidth="130">
+      <DataGridTemplateColumn.CellTemplate>
+       <DataTemplate>
+        <TextBox Style="{StaticResource EditorInasistencias}" Text="{Binding TextoInasistencias, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" AutomationProperties.Name="{Binding Estudiante, StringFormat='Inasistencias de {0}'}" AutomationProperties.HelpText="{Binding Error}"/>
+       </DataTemplate>
+      </DataGridTemplateColumn.CellTemplate>
+     </DataGridTemplateColumn>
+     <DataGridTemplateColumn Header="Estado" Width="1.5*" MinWidth="140">
+      <DataGridTemplateColumn.CellTemplate>
+       <DataTemplate>
+        <StackPanel>
+         <TextBlock Text="{Binding Estado}" FontSize="12"/>
+         <TextBlock Text="{Binding Error}" Foreground="{DynamicResource Error}" FontSize="11"/>
+        </StackPanel>
+       </DataTemplate>
+      </DataGridTemplateColumn.CellTemplate>
+     </DataGridTemplateColumn>
+    </DataGrid.Columns>
+   </DataGrid>
+   <StackPanel Grid.Row="5">
+    <controles:BarraPaginacion/>
+    <Border BorderBrush="{DynamicResource Borde}" BorderThickness="0,1,0,0" Padding="0,12,0,0" Margin="0,10,0,0">
+     <Grid>
+      <Grid.ColumnDefinitions>
+       <ColumnDefinition/>
+       <ColumnDefinition Width="Auto"/>
+       <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <StackPanel VerticalAlignment="Center" Margin="0,0,20,0">
+       <controles:IndicadorConfirmacion Activo="{Binding Confirmado}" Margin="0,0,0,7"/>
+       <TextBlock Text="{Binding Resumen}" FontWeight="SemiBold" AutomationProperties.LiveSetting="Polite"/>
+       <TextBlock Text="{Binding Mensaje}" FontSize="12" Foreground="{DynamicResource TextoSecundario}" Margin="0,5,0,0" AutomationProperties.LiveSetting="Assertive"/>
+      </StackPanel>
+      <StackPanel Grid.Column="1" Orientation="Horizontal">
+       <Button Content="Exoneración…" Click="Exonerar" Margin="0,0,12,0" ToolTip="Selecciona al estudiante para registrar o revocar su exoneración.">
+        <Button.Style><Style TargetType="Button" BasedOn="{StaticResource BotonTexto}"><Setter Property="Visibility" Value="Collapsed"/>
+         <Style.Triggers><DataTrigger Binding="{Binding Administracion}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger><DataTrigger Binding="{Binding FilaSeleccionada}" Value="{x:Null}"><Setter Property="IsEnabled" Value="False"/></DataTrigger></Style.Triggers>
+        </Style></Button.Style>
+       </Button>
+      <Button Content="Revisar errores" Click="RevisarErrores" Margin="0,0,12,0">
+       <Button.Style>
+        <Style TargetType="Button" BasedOn="{StaticResource BotonTexto}">
+         <Style.Triggers>
+          <DataTrigger Binding="{Binding Errores}" Value="0">
+           <Setter Property="Visibility" Value="Collapsed"/>
+          </DataTrigger>
+         </Style.Triggers>
+        </Style>
+       </Button.Style>
+      </Button>
+       <Button Content="Comparar con servidor" Click="Comparar" Margin="0,0,12,0"><Button.Style><Style TargetType="Button" BasedOn="{StaticResource BotonTexto}"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding RequiereRevision}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></Button.Style></Button>
+      </StackPanel>
+      <Button x:Name="BotonGuardar" Grid.Column="2" Content="Guardar cambios" IsEnabled="{Binding PuedeGuardar}" Style="{StaticResource BotonPrincipal}" Click="Guardar"/>
+     </Grid>
+    </Border>
+   </StackPanel>
+  </Grid>
+  <controles:DialogoComparacionNotas DataContext="{Binding Comparador}"/>
+  <controles:DialogoExoneracion x:Name="DialogoEx" DataContext="{Binding Exoneracion}"/>
+  <Grid x:Name="PanelSalida" Background="#7018392A" Visibility="Collapsed">
+   <Border Background="White" CornerRadius="10" Padding="30" MaxWidth="500" Margin="24" VerticalAlignment="Center" KeyboardNavigation.TabNavigation="Cycle" PreviewKeyDown="TeclasSalida">
+    <StackPanel>
+     <TextBlock Text="{Binding TituloSalida}" FontSize="24" FontWeight="SemiBold"/>
+     <TextBlock Text="{Binding AvisoSalida}" Foreground="{DynamicResource TextoSecundario}" FontSize="15" Margin="0,16,0,0"/>
+     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,26,0,0">
+      <Button x:Name="VolverEdicion" Content="Seguir aquí" Style="{StaticResource BotonTexto}" Click="VolverPlanilla" Margin="0,0,12,0"/>
+      <Button x:Name="SalirConfirmado" Content="Salir" Click="SalirPlanilla">
+       <Button.Style>
+        <Style TargetType="Button" BasedOn="{StaticResource BotonPrincipal}">
+         <Style.Triggers>
+          <DataTrigger Binding="{Binding Guardando}" Value="True">
+           <Setter Property="IsEnabled" Value="False"/>
+          </DataTrigger>
+         </Style.Triggers>
+        </Style>
+       </Button.Style>
+      </Button>
+     </StackPanel>
+    </StackPanel>
+   </Border>
+  </Grid>
+ </Grid>
+</UserControl>
+

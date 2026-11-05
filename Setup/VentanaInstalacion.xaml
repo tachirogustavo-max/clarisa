@@ -1,0 +1,122 @@
+<Window x:Class="Clarisa.Setup.VentanaInstalacion" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:m="clr-namespace:Clarisa.Setup.Modelos" xmlns:v="clr-namespace:Clarisa.Setup.Vistas" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=m:ModeloInstalacion, IsDesignTimeCreatable=True}" Title="Instalación · Sistema de Control Académico La Clarisa" Width="980" Height="780" MinWidth="780" MinHeight="620" WindowStartupLocation="CenterScreen" Icon="Resources/clarisa.ico" Closing="CerrarVentana" Style="{StaticResource VentanaInstitucional}">
+ <Grid x:Name="Superficie" Margin="30,22">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <Grid Margin="0,0,0,16">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <Border Background="White" CornerRadius="10" Padding="8"><Image Source="Resources/logo-liceo.png" Width="78" Height="44" Stretch="Uniform"/></Border>
+   <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="18,0,0,0"><TextBlock Text="Sistema de Control Académico La Clarisa" FontFamily="{StaticResource Editorial}" FontSize="23" TextWrapping="Wrap"/><TextBlock Text="Preparación del equipo" Foreground="{StaticResource Secundario}" Margin="0,4,0,0"/></StackPanel>
+   <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center"><Button Content="Recuperar una copia" Click="AbrirRecuperacion" Margin="0,0,12,0" ToolTip="En el servidor ya instalado: recuperar la información desde una copia de seguridad."/><Border Background="#E3EDE0" CornerRadius="20" Padding="15,8"><TextBlock Text="Instalación" Foreground="{StaticResource Verde}" FontWeight="SemiBold"/></Border></StackPanel>
+  </Grid>
+  <Border Grid.Row="1" Background="White" CornerRadius="10" Padding="18,13" Margin="0,0,0,18">
+   <Border.Style><Style TargetType="Border"><Style.Triggers><DataTrigger Binding="{Binding ProgresoVisible}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Border.Style>
+   <UniformGrid Columns="4">
+    <TextBlock Text="1  Equipo"><TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource EtapaAsistente}"><Style.Triggers><DataTrigger Binding="{Binding Pagina}" Value="0"><Setter Property="Foreground" Value="{StaticResource Verde}"/><Setter Property="FontWeight" Value="SemiBold"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+    <TextBlock Text="2  Configuración"><TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource EtapaAsistente}"><Style.Triggers><DataTrigger Binding="{Binding Pagina}" Value="1"><Setter Property="Foreground" Value="{StaticResource Verde}"/><Setter Property="FontWeight" Value="SemiBold"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+    <TextBlock Text="3  Revisar"><TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource EtapaAsistente}"><Style.Triggers><DataTrigger Binding="{Binding Pagina}" Value="2"><Setter Property="Foreground" Value="{StaticResource Verde}"/><Setter Property="FontWeight" Value="SemiBold"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+    <TextBlock Text="4  Preparar"><TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource EtapaAsistente}"><Style.Triggers><DataTrigger Binding="{Binding Pagina}" Value="3"><Setter Property="Foreground" Value="{StaticResource Verde}"/><Setter Property="FontWeight" Value="SemiBold"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+   </UniformGrid>
+  </Border>
+  <Border Grid.Row="2" Background="White" CornerRadius="15" Padding="28">
+   <Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding EquipoVisible, Converter={StaticResource Visible}}">
+     <StackPanel>
+      <TextBlock Text="¿Qué función tendrá este equipo?" FontFamily="{StaticResource Editorial}" FontSize="30"/>
+      <TextBlock Text="Puedes instalar el servidor o preparar una estación para conectarse a él." Foreground="{StaticResource Secundario}" Margin="0,9,0,28"/>
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="18"/><ColumnDefinition/></Grid.ColumnDefinitions>
+       <Border Background="#F3F7F0" BorderBrush="#C5D7C0" BorderThickness="1" CornerRadius="12" Padding="22">
+        <StackPanel>
+         <Path Data="M2,2 H22 V10 H2 Z M2,14 H22 V22 H2 Z M6,6 H6.2 M6,18 H6.2 M12,6 H18 M12,18 H18" Stroke="#126D3D" StrokeThickness="1.6" Width="36" Height="36" Stretch="Uniform" HorizontalAlignment="Left" Margin="0,0,0,18"/>
+         <RadioButton Content="Servidor" IsChecked="{Binding Configuracion.Servidor}" FontSize="18" FontWeight="SemiBold"/>
+         <TextBlock Text="Conserva la información del liceo y atiende a las estaciones de trabajo." Foreground="{StaticResource Secundario}" Margin="0,12,0,18" LineHeight="22"/>
+         <TextBlock Text="Debe permanecer encendido mientras el personal utiliza el sistema." Style="{StaticResource Ayuda}"/>
+        </StackPanel>
+       </Border>
+       <Border Grid.Column="2" Background="#FAFBF8" BorderBrush="#D8DFD3" BorderThickness="1" CornerRadius="12" Padding="22">
+        <StackPanel>
+         <Path Data="M2,3 H22 V17 H2 Z M8,22 H16 M12,17 V22" Stroke="#126D3D" StrokeThickness="1.6" Width="36" Height="36" Stretch="Uniform" HorizontalAlignment="Left" Margin="0,0,0,18"/>
+         <RadioButton Content="Estación" IsChecked="{Binding Configuracion.Estacion}" FontSize="18" FontWeight="SemiBold"/>
+         <TextBlock Text="Permite trabajar a dirección o docentes desde otro equipo de la red local." Foreground="{StaticResource Secundario}" Margin="0,12,0,18" LineHeight="22"/>
+         <TextBlock Text="Necesita que el servidor esté preparado y disponible en la misma red." Style="{StaticResource Ayuda}"/>
+        </StackPanel>
+       </Border>
+      </Grid>
+      <TextBlock Text="No necesitas Internet para trabajar dentro de la red del liceo." Style="{StaticResource Ayuda}" Margin="0,22,0,0"/>
+     </StackPanel>
+    </ScrollViewer>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ConfiguracionVisible, Converter={StaticResource Visible}}">
+     <StackPanel Margin="0,0,12,0">
+      <TextBlock Text="Configuremos la conexión" FontFamily="{StaticResource Editorial}" FontSize="30"/>
+      <TextBlock Text="Estos datos se revisan antes de hacer cambios." Foreground="{StaticResource Secundario}" Margin="0,9,0,20"/>
+      <StackPanel Visibility="{Binding Configuracion.Servidor, Converter={StaticResource Visible}}">
+       <Label Content="Red del liceo"/>
+       <ComboBox ItemsSource="{Binding Configuracion.Redes}" SelectedItem="{Binding Configuracion.Red}" DisplayMemberPath="NombreVisible" AutomationProperties.Name="Red local del liceo"/>
+       <TextBlock Text="Si hay una sola red, queda elegida. No hace falta escribir direcciones ni puertos." Style="{StaticResource Ayuda}"/>
+       <Border Background="#FFF4E0" BorderBrush="#D9A441" BorderThickness="1" CornerRadius="6" Padding="12,8" Margin="0,-6,0,14">
+        <Border.Style><Style TargetType="Border"><Style.Triggers><DataTrigger Binding="{Binding Configuracion.AvisoRed}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Border.Style>
+        <TextBlock Text="{Binding Configuracion.AvisoRed}" TextWrapping="Wrap" Foreground="#7A4E00" FontSize="13"/>
+       </Border>
+       <Label Content="Usuario de Dirección"/><TextBox Text="{Binding Configuracion.Usuario, UpdateSourceTrigger=PropertyChanged}" MaxLength="40"/>
+       <TextBlock Text="La primera vez podrás elegir nombre y contraseña. Al reparar, indica el usuario de una cuenta de Dirección existente." Style="{StaticResource Ayuda}"/>
+       <Label Content="Dónde conservar la clave de recuperación"/>
+       <DockPanel><Button DockPanel.Dock="Right" Content="Elegir…" Click="ElegirClave" Margin="10,0,0,0"/><TextBox Text="{Binding Configuracion.ExportarClave, UpdateSourceTrigger=PropertyChanged}"/></DockPanel>
+       <TextBlock Text="Elige una memoria u otra ubicación resguardada fuera del servidor. Esta clave permite recuperar las copias si se pierde el equipo." Style="{StaticResource Ayuda}"/>
+       <Expander Header="Ajustes avanzados y ubicación" Margin="0,8,0,16">
+        <StackPanel Margin="0,14,0,0">
+         <TextBlock Text="Estos valores ya tienen una configuración inicial. Cámbialos solo si la red o el equipo lo necesitan." Style="{StaticResource Ayuda}"/>
+         <Label Content="Nombre para conectarse"/><TextBox Text="{Binding Configuracion.NombreConexion, UpdateSourceTrigger=PropertyChanged}" MaxLength="253"/>
+         <Label Content="Dirección IP local" Margin="0,12,0,0"/><TextBox Text="{Binding Configuracion.DireccionEscucha, UpdateSourceTrigger=PropertyChanged}" MaxLength="45"/>
+         <Grid Margin="0,12,0,0"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="16"/><ColumnDefinition/></Grid.ColumnDefinitions>
+          <StackPanel><Label Content="Puerto de conexión segura"/><TextBox Text="{Binding Configuracion.TextoPuertoHttps, UpdateSourceTrigger=PropertyChanged}" MaxLength="5"/></StackPanel>
+          <StackPanel Grid.Column="2"><Label Content="Puerto interno de datos"/><TextBox Text="{Binding Configuracion.TextoPuertoMotor, UpdateSourceTrigger=PropertyChanged}" MaxLength="5"/></StackPanel>
+         </Grid>
+         <Label Content="Programa" Margin="0,12,0,0"/><TextBox Text="{Binding Configuracion.Programa, UpdateSourceTrigger=PropertyChanged}"/>
+         <Label Content="Información del servidor" Margin="0,12,0,0"/><TextBox Text="{Binding Configuracion.Datos, UpdateSourceTrigger=PropertyChanged}"/>
+         <TextBlock Text="La información y las copias se conservan separadas del programa." Style="{StaticResource Ayuda}"/>
+        </StackPanel>
+       </Expander>
+      </StackPanel>
+      <StackPanel Visibility="{Binding Configuracion.Estacion, Converter={StaticResource Visible}}">
+       <Label Content="Dirección del servidor"/><TextBox Text="{Binding Configuracion.DireccionServidor, UpdateSourceTrigger=PropertyChanged}"/>
+       <TextBlock Text="Usa la dirección HTTPS indicada al preparar el servidor." Style="{StaticResource Ayuda}"/>
+       <Label Content="Certificado público del servidor"/>
+       <DockPanel><Button DockPanel.Dock="Right" Content="Elegir…" Click="ElegirCertificado" Margin="10,0,0,0"/><TextBox Text="{Binding Configuracion.Certificado, UpdateSourceTrigger=PropertyChanged}"/></DockPanel>
+       <TextBlock Text="Selecciona el certificado entregado por la persona que preparó el servidor." Style="{StaticResource Ayuda}"/>
+       <Label Content="Huella de verificación"/><TextBox Text="{Binding Configuracion.Huella, UpdateSourceTrigger=PropertyChanged}" MaxLength="96"/>
+       <TextBlock Text="Compárala con la huella que muestra el servidor antes de confiar en el certificado." Style="{StaticResource Ayuda}"/>
+       <Expander Header="Ubicación de la aplicación" Margin="0,8,0,16"><StackPanel Margin="0,12,0,0"><Label Content="Carpeta de instalación"/><DockPanel><Button DockPanel.Dock="Right" Content="Elegir…" Click="ElegirPrograma" Margin="10,0,0,0"/><TextBox Text="{Binding Configuracion.Programa, UpdateSourceTrigger=PropertyChanged}"/></DockPanel></StackPanel></Expander>
+      </StackPanel>
+      <ItemsControl ItemsSource="{Binding Problemas}"><ItemsControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Mensaje}" Foreground="#A52C35" Margin="0,5"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+     </StackPanel>
+    </ScrollViewer>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="{Binding RevisionVisible, Converter={StaticResource Visible}}">
+     <StackPanel Margin="0,0,12,0">
+      <TextBlock Text="Revisa antes de instalar" FontFamily="{StaticResource Editorial}" FontSize="30"/>
+      <TextBlock Text="Estos son los cambios previstos para este equipo." Foreground="{StaticResource Secundario}" Margin="0,9,0,22"/>
+      <ItemsControl ItemsSource="{Binding Resumen}"><ItemsControl.ItemTemplate><DataTemplate>
+       <Grid Margin="0,7"><Grid.ColumnDefinitions><ColumnDefinition Width="180"/><ColumnDefinition/></Grid.ColumnDefinitions>
+        <TextBlock Text="{Binding Etiqueta}" Foreground="{StaticResource Secundario}"/><TextBlock Grid.Column="1" Text="{Binding Valor}" FontWeight="SemiBold"/>
+       </Grid>
+      </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      <Border Height="1" Background="#DCE3D6" Margin="0,20"/>
+      <ItemsControl ItemsSource="{Binding Pasos}"><ItemsControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Nombre}" Margin="0,5"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      <CheckBox IsChecked="{Binding Confirmado}" Margin="0,24,0,8"><TextBlock Text="Revisé los datos y autorizo preparar este equipo."/></CheckBox>
+     </StackPanel>
+    </ScrollViewer>
+    <v:ProgresoInstalacion Visibility="{Binding ProgresoVisible, Converter={StaticResource Visible}}"/>
+   </Grid>
+  </Border>
+  <Grid Grid.Row="3" Margin="0,18,0,0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+   <TextBlock Text="{Binding Mensaje}" Foreground="#A52C35" AutomationProperties.LiveSetting="Polite" Margin="0,0,0,10"/>
+   <Grid Grid.Row="1"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+    <Button Content="Volver" Click="Volver" IsEnabled="{Binding PuedeVolver}" HorizontalAlignment="Left" Visibility="{Binding MostrarContinuar, Converter={StaticResource Visible}}"/>
+    <Button Content="Abrir registro" Click="AbrirRegistro" HorizontalAlignment="Left" Visibility="{Binding MostrarRegistro, Converter={StaticResource Visible}}"/>
+    <WrapPanel Grid.Column="1">
+     <Button Content="Cancelar" Click="Cancelar" Margin="0,0,10,0" Visibility="{Binding MostrarContinuar, Converter={StaticResource Visible}}"/>
+     <Button Content="{Binding TextoContinuar}" Click="Continuar" Style="{StaticResource Principal}" IsEnabled="{Binding PuedeContinuar}" Visibility="{Binding MostrarContinuar, Converter={StaticResource Visible}}"/>
+     <Button Content="Detener al terminar este paso" Click="Detener" Visibility="{Binding Ejecutando, Converter={StaticResource Visible}}"/>
+     <Button Content="Cerrar" Click="Cancelar" Style="{StaticResource Principal}" Visibility="{Binding Finalizado, Converter={StaticResource Visible}}"/>
+    </WrapPanel>
+   </Grid>
+  </Grid>
+ </Grid>
+</Window>

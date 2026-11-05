@@ -1,0 +1,196 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="Clarisa.Desktop.Controls.MenuLateral" x:Name="Menu">
+  <Grid Background="#10372A">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Grid Grid.Row="0">
+      <Grid.Style>
+        <Style TargetType="Grid">
+          <Setter Property="Margin" Value="12,22,12,12"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Compacto, ElementName=Menu}" Value="True">
+              <Setter Property="Margin" Value="6,14,6,8"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Grid.Style>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <StackPanel Margin="14,0,0,18">
+        <StackPanel.Style>
+          <Style TargetType="StackPanel">
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Compacto, ElementName=Menu}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </StackPanel.Style>
+        <TextBlock Text="Control Académico" Foreground="White" FontSize="18" FontWeight="SemiBold"/>
+      </StackPanel>
+      <ListBox Grid.Row="1" ItemsSource="{Binding Entradas, ElementName=Menu}" SelectedValuePath="Clave" SelectedValue="{Binding ModuloActual, ElementName=Menu, Mode=OneWay}" SelectionChanged="Navegar" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Padding="0">
+        <ListBox.Template>
+          <ControlTemplate TargetType="ListBox">
+            <ScrollViewer Focusable="False" Background="Transparent" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+              <ItemsPresenter/>
+            </ScrollViewer>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.6"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </ListBox.Template>
+        <ListBox.ItemContainerStyle>
+          <Style TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="0,3"/>
+            <Setter Property="Foreground" Value="#E1EBE3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="ToolTip" Value="{Binding Nombre}"/>
+            <Setter Property="AutomationProperties.Name" Value="{Binding Nombre}"/>
+            <EventSetter Event="MouseLeftButtonUp" Handler="PulsarEntrada"/>
+            <EventSetter Event="KeyDown" Handler="TeclaEntrada"/>
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                  <Border x:Name="Fondo" Background="Transparent" CornerRadius="8" Padding="13,10" BorderBrush="Transparent" BorderThickness="1">
+                    <ContentPresenter/>
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <DataTrigger Binding="{Binding Compacto, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                      <Setter TargetName="Fondo" Property="Padding" Value="7,10"/>
+                    </DataTrigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter TargetName="Fondo" Property="Background" Value="#244F3B"/>
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                      <Setter TargetName="Fondo" Property="Background" Value="#F6FAF1"/>
+                      <Setter Property="Foreground" Value="#10372A"/>
+                    </Trigger>
+                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                      <Setter TargetName="Fondo" Property="BorderBrush" Value="#A8C2F0"/>
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding Compacto, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                <Setter Property="Width" Value="44"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </ListBox.ItemContainerStyle>
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid>
+              <Grid.Style>
+                <Style TargetType="Grid">
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Compacto, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                      <Setter Property="HorizontalAlignment" Value="Center"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </Grid.Style>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition>
+                  <ColumnDefinition.Style>
+                    <Style TargetType="ColumnDefinition">
+                      <Setter Property="Width" Value="29"/>
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding Compacto, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                          <Setter Property="Width" Value="Auto"/>
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </ColumnDefinition.Style>
+                </ColumnDefinition>
+                <ColumnDefinition Width="Auto"/>
+              </Grid.ColumnDefinitions>
+              <Path Data="{Binding Icono}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Width="22" Height="22" Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+              <TextBlock Grid.Column="1" Text="{Binding Nombre}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" FontSize="13" VerticalAlignment="Center">
+                <TextBlock.Style>
+                  <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Compacto, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </TextBlock.Style>
+              </TextBlock>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Grid>
+    <Border Grid.Row="1" BorderBrush="#315443" BorderThickness="0,1,0,0">
+      <Border.Style>
+        <Style TargetType="Border">
+          <Setter Property="Margin" Value="22,0"/>
+          <Setter Property="Padding" Value="0,18"/>
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Compacto, ElementName=Menu}" Value="True">
+              <Setter Property="Margin" Value="6,0"/>
+              <Setter Property="Padding" Value="0,12"/>
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Border.Style>
+      <Grid>
+        <Button x:Name="BotonIdentidad" Click="AbrirCuenta" ToolTip="Tu cuenta" AutomationProperties.Name="Abrir opciones de tu cuenta" Padding="0" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Stretch">
+          <Button.Template>
+            <ControlTemplate TargetType="Button">
+              <Border x:Name="MarcoCuenta" Background="Transparent" CornerRadius="6" Padding="2,4" BorderBrush="Transparent" BorderThickness="1">
+                <ContentPresenter/>
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter TargetName="MarcoCuenta" Property="Background" Value="#244F3B"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                  <Setter TargetName="MarcoCuenta" Property="BorderBrush" Value="#A8C2F0"/>
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Button.Template>
+          <StackPanel ToolTip="{Binding NombreUsuario, ElementName=Menu}">
+            <TextBlock x:Name="NombreSesion" Text="{Binding NombreUsuario, ElementName=Menu}" TextTrimming="CharacterEllipsis" Foreground="White" FontWeight="SemiBold">
+              <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                  <Setter Property="FontSize" Value="13"/>
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding Compacto, ElementName=Menu}" Value="True">
+                      <Setter Property="FontSize" Value="11"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TextBlock.Style>
+            </TextBlock>
+            <TextBlock x:Name="RolSesion" Text="{Binding Perfil, ElementName=Menu}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Foreground="#B8CDBE" FontSize="11" Margin="0,5,0,0"/>
+          </StackPanel>
+        </Button>
+        <Popup x:Name="OpcionesCuenta" PlacementTarget="{Binding ElementName=BotonIdentidad}" Placement="Top" StaysOpen="False" AllowsTransparency="True" PopupAnimation="Fade" PreviewKeyDown="TeclaCuenta" Opened="EnfocarCuenta">
+          <Border Background="White" BorderBrush="#CDD9CD" BorderThickness="1" CornerRadius="12" Padding="18" Margin="8" Width="260" KeyboardNavigation.TabNavigation="Cycle">
+            <Border.Effect>
+              <DropShadowEffect BlurRadius="16" ShadowDepth="3" Opacity="0.18"/>
+            </Border.Effect>
+            <StackPanel>
+              <TextBlock Text="{Binding NombreUsuario, ElementName=Menu}" FontWeight="SemiBold" Foreground="#173529" FontSize="16" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding Perfil, ElementName=Menu}" Foreground="#617467" FontSize="12" Margin="0,5,0,15"/>
+              <Button x:Name="BotonClave" Content="Cambiar contraseña" Style="{DynamicResource BotonTexto}" Click="CambiarClave" HorizontalContentAlignment="Left" Margin="0,0,0,8"/>
+              <Border Background="#E4EAE1" Height="1" Margin="0,4,0,12"/>
+              <Button x:Name="BotonSalir" Content="Cerrar sesión" Style="{DynamicResource BotonTexto}" Click="SalirCuenta" HorizontalContentAlignment="Left"/>
+            </StackPanel>
+          </Border>
+        </Popup>
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

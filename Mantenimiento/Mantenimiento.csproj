@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aplicacion\Aplicacion.csproj" />
+    <ProjectReference Include="..\Infraestructura\Infraestructura.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Presentacion\Resources\claves-prohibidas.txt" Link="Resources\claves-prohibidas.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\licencias\SecLists-MIT.txt" Link="Licencias\SecLists-MIT.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Clarisa.Mantenimiento</AssemblyName>
+    <RootNamespace>Clarisa.Mantenimiento</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

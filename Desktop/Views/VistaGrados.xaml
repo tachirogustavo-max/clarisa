@@ -1,0 +1,28 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" x:Class="Clarisa.Desktop.Views.VistaGrados">
+ <UserControl.Resources>
+  <DataTemplate x:Key="FormularioGrado">
+   <StackPanel>
+    <Label Content="_Nombre del año" Target="{Binding ElementName=CampoNombre}" Style="{StaticResource Etiqueta}"/>
+    <TextBox x:Name="CampoNombre" Text="{Binding Formulario.Nombre, UpdateSourceTrigger=PropertyChanged}" MaxLength="40" AutomationProperties.Name="Nombre del año de estudio"/>
+    <TextBlock Text="{Binding Formulario[Nombre]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,4"/>
+    <TextBlock Text="Por ejemplo: 6to año. Si cambias el nombre, cambia también en sus secciones y en los boletines." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextoSecundario}" Margin="0,0,0,16"/>
+    <Label Content="_Posición en la lista" Target="{Binding ElementName=CampoOrden}" Style="{StaticResource Etiqueta}"/>
+    <ComboBox x:Name="CampoOrden" ItemsSource="{Binding Formulario.Ordenes}" SelectedItem="{Binding Formulario.Orden}" MaxWidth="120" HorizontalAlignment="Left" MinWidth="100" AutomationProperties.Name="Posición del año en la lista"/>
+    <TextBlock Text="{Binding Formulario[Orden]}" Style="{StaticResource ErrorCampo}"/>
+    <CheckBox Content="Año activo" IsChecked="{Binding Formulario.Activo}" Margin="0,14,0,0">
+     <CheckBox.Style><Style TargetType="CheckBox"><Style.Triggers><DataTrigger Binding="{Binding Formulario.Nuevo}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></CheckBox.Style>
+    </CheckBox>
+    <TextBlock Text="Un año inactivo no aparece al crear secciones. Las secciones que ya tiene no cambian." TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextoSecundario}" Margin="0,6,0,0">
+     <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding Formulario.Nuevo}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+    </TextBlock>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <controles:ListadoCatalogo Editor="{StaticResource FormularioGrado}">
+  <controles:ListadoCatalogo.Columnas>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Posición" Binding="{Binding Orden}" MinWidth="100" Width="100"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Año" Binding="{Binding Nombre}" Width="*" MinWidth="200"/>
+   <DataGridCheckBoxColumn ElementStyle="{StaticResource CasillaConsulta}" Header="Activo" Binding="{Binding Activo}" MinWidth="100" Width="100"/>
+  </controles:ListadoCatalogo.Columnas>
+ </controles:ListadoCatalogo>
+</UserControl>

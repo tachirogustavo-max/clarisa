@@ -1,0 +1,53 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Clarisa.Desktop.Views.VistaInscripciones" d:DataContext="{d:DesignInstance Type=diseno:DatosInscripciones, IsDesignTimeCreatable=True}" mc:Ignorable="d">
+ <UserControl.Resources>
+  <DataTemplate x:Key="FormularioInscripcion">
+   <StackPanel>
+    <StackPanel>
+     <StackPanel.Style>
+      <Style TargetType="StackPanel">
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding Formulario.Nuevo}" Value="False">
+         <Setter Property="IsEnabled" Value="False"/>
+        </DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </StackPanel.Style>
+     <Label Content="Estudiante" Style="{StaticResource Etiqueta}"/>
+     <ComboBox ItemsSource="{Binding Formulario.Estudiantes}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formulario.Estudiante}" AutomationProperties.Name="Estudiante que se inscribe"/>
+     <TextBlock Text="{Binding Formulario[Estudiante]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+     <Label Content="Sección" Style="{StaticResource Etiqueta}"/>
+     <ComboBox ItemsSource="{Binding Formulario.Secciones}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formulario.Seccion}" AutomationProperties.Name="Sección de la inscripción"/>
+     <TextBlock Text="{Binding Formulario[Seccion]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+    </StackPanel>
+    <Label Content="{Binding Formulario.EtiquetaFecha}" Style="{StaticResource Etiqueta}"/>
+    <DatePicker SelectedDate="{Binding Formulario.Fecha}" AutomationProperties.Name="Fecha de la operación"/>
+    <TextBlock Text="{Binding Formulario[Fecha]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+    <StackPanel>
+     <StackPanel.Style>
+      <Style TargetType="StackPanel">
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding Formulario.Nuevo}" Value="True">
+         <Setter Property="Visibility" Value="Collapsed"/>
+        </DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </StackPanel.Style>
+     <Border Background="#FFF2E9" Padding="14" CornerRadius="6">
+      <TextBlock Text="El estudiante dejará de aparecer en la nómina activa de esta sección. Sus notas y su historial se conservarán."/>
+     </Border>
+     <CheckBox Content="Confirmo el retiro de esta inscripción" IsChecked="{Binding Formulario.ConfirmarRetiro}" Margin="0,20,0,0"/>
+     <TextBlock Text="{Binding Formulario[ConfirmarRetiro]}" Style="{StaticResource ErrorCampo}"/>
+    </StackPanel>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <controles:ListadoCatalogo Editor="{StaticResource FormularioInscripcion}">
+  <controles:ListadoCatalogo.Columnas>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Estudiante" Binding="{Binding Estudiante}" Width="2*" MinWidth="180"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Cédula" Binding="{Binding Cedula, TargetNullValue='Sin cédula'}" MinWidth="120" Width="120"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Sección" Binding="{Binding Seccion}" MinWidth="110" Width="110"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Inscripción" Binding="{Binding Fecha, StringFormat=dd/MM/yyyy}" MinWidth="130" Width="130"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Estado" Binding="{Binding Estado}" MinWidth="110" Width="110"/>
+  </controles:ListadoCatalogo.Columnas>
+ </controles:ListadoCatalogo>
+</UserControl>

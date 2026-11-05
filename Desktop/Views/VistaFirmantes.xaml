@@ -1,0 +1,33 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" xmlns:conv="clr-namespace:Clarisa.Desktop.Presentation.Converters" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Clarisa.Desktop.Views.VistaFirmantes" Loaded="Cargar" d:DataContext="{d:DesignInstance Type=diseno:DatosFirmantes, IsDesignTimeCreatable=True}" d:DesignWidth="1100" d:DesignHeight="780" mc:Ignorable="d">
+ <UserControl.Resources>
+  <conv:Negacion x:Key="Invertir"/>
+ </UserControl.Resources>
+ <Grid Background="White">
+  <Grid.RowDefinitions>
+   <RowDefinition/>
+   <RowDefinition Height="Auto"/>
+  </Grid.RowDefinitions>
+  <ScrollViewer VerticalScrollBarVisibility="Auto">
+   <StackPanel Margin="32,18,32,6" MaxWidth="620" HorizontalAlignment="Left" IsEnabled="{Binding Ocupado, Converter={StaticResource Invertir}}">
+    <TextBlock Text="Nombres que se imprimen bajo las firmas del boletín. El cambio vale para los boletines que generes desde ahora; los PDF ya guardados no cambian." TextWrapping="Wrap" Foreground="{DynamicResource TextoSecundario}" Margin="0,0,0,8"/>
+    <TextBlock Text="{Binding Origen}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,12"/>
+    <Label Content="Director(a)" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Director}"/>
+    <TextBox x:Name="Director" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" MaxLength="120"/>
+    <Label Content="Coordinación de Evaluación" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Evaluacion}" Margin="0,12,0,0"/>
+    <TextBox x:Name="Evaluacion" Text="{Binding CoordinadorEvaluacion, UpdateSourceTrigger=PropertyChanged}" MaxLength="120"/>
+    <Label Content="Coordinación de Control de Estudio" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Estudios}" Margin="0,12,0,0"/>
+    <TextBox x:Name="Estudios" Text="{Binding CoordinadorEstudios, UpdateSourceTrigger=PropertyChanged}" MaxLength="120"/>
+    <Label Content="Motivo del cambio (por ejemplo, el nombramiento)" Style="{StaticResource Etiqueta}" Target="{Binding ElementName=Motivo}" Margin="0,12,0,0"/>
+    <TextBox x:Name="Motivo" Text="{Binding Motivo, UpdateSourceTrigger=PropertyChanged}" MaxLength="200"/>
+    <TextBlock Text="Un campo vacío deja esa línea en blanco en el boletín." TextWrapping="Wrap" Foreground="{DynamicResource TextoSecundario}" Margin="0,8,0,0"/>
+    <WrapPanel Margin="0,16,0,16">
+     <Button Content="Descartar cambios" Style="{StaticResource BotonTexto}" Click="Descartar" Margin="0,0,12,0"/>
+     <Button Content="Guardar firmantes" Style="{StaticResource BotonPrincipal}" Click="Guardar"/>
+    </WrapPanel>
+   </StackPanel>
+  </ScrollViewer>
+  <TextBlock Grid.Row="1" Text="{Binding Mensaje}" Margin="32,14" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite">
+   <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding MensajeEsError}" Value="True"><Setter Property="Foreground" Value="{DynamicResource Error}"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+  </TextBlock>
+ </Grid>
+</UserControl>

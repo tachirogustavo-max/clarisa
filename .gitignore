@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+.vs/
+*.user
+*.log
+appsettings.json
+appsettings.*.json
+!appsettings.example.json
+*.key
+*.pfx
+*.db
+*.sqlite*
+**/node_modules/
+**/__pycache__/
+*.pyc

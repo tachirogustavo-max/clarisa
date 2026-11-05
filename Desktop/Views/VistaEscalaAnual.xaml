@@ -1,0 +1,21 @@
+<UserControl x:Class="Clarisa.Desktop.Views.VistaEscalaAnual" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:c="clr-namespace:Clarisa.Desktop.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:m="clr-namespace:Clarisa.Desktop.Presentation.Models" mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="760" d:DataContext="{d:DesignInstance Type=m:ModeloEscalaAnual, IsDesignTimeCreatable=True}">
+ <UserControl.Resources>
+  <DataTemplate x:Key="Editor">
+   <StackPanel>
+    <TextBlock Text="{Binding Formulario.Aviso}" TextWrapping="Wrap" Margin="0,0,0,20" Foreground="{DynamicResource TextoSecundario}"/>
+    <Label Content="Letra" Style="{StaticResource Etiqueta}"/>
+    <TextBox Text="{Binding Formulario.Letra, UpdateSourceTrigger=PropertyChanged}" MaxLength="4" IsReadOnly="{Binding Formulario.Consulta}"/>
+    <TextBlock Text="{Binding Formulario[Letra]}" Style="{StaticResource ErrorCampo}"/>
+    <Label Content="Descripción · opcional" Style="{StaticResource Etiqueta}" Margin="0,12,0,0"/>
+    <TextBox Text="{Binding Formulario.Descripcion, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" IsReadOnly="{Binding Formulario.Consulta}"/>
+    <TextBlock Text="{Binding Formulario[Descripcion]}" Style="{StaticResource ErrorCampo}"/>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <c:ListadoCatalogo Editor="{StaticResource Editor}">
+  <c:ListadoCatalogo.Columnas>
+   <DataGridTextColumn Header="Letra" Binding="{Binding Letra}" Width="100" ElementStyle="{StaticResource TextoTabla}"/>
+   <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion, TargetNullValue='Sin descripción'}" Width="*" ElementStyle="{StaticResource TextoTabla}"/>
+  </c:ListadoCatalogo.Columnas>
+ </c:ListadoCatalogo>
+</UserControl>

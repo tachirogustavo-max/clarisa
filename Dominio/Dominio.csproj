@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Clarisa.Domain</AssemblyName>
+    <RootNamespace>Clarisa.Domain</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- El núcleo no hace E/S ni HTTP: sin estos usos implícitos, un File o HttpClient ni siquiera compila sin calificar. -->
+    <Using Remove="System.IO" />
+    <Using Remove="System.Net.Http" />
+  </ItemGroup>
+
+</Project>

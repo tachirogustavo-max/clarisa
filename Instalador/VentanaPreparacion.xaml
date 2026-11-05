@@ -1,0 +1,19 @@
+<Window x:Class="Clarisa.Instalador.VentanaPreparacion" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Sistema de Control Académico La Clarisa" Width="500" SizeToContent="Height" WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True"
+        Background="Transparent" WindowStartupLocation="CenterScreen" FontFamily="Segoe UI" FontSize="14" Foreground="#18392A">
+ <Border Background="#F2F5EF" BorderBrush="#C5CEC3" BorderThickness="1" CornerRadius="10" Padding="28,24" Margin="12">
+  <Border.Effect><DropShadowEffect BlurRadius="18" ShadowDepth="2" Opacity="0.25"/></Border.Effect>
+  <StackPanel>
+   <StackPanel Orientation="Horizontal">
+    <Image Source="Recursos/logo-liceo.png" Width="44" Height="44" Margin="0,0,14,0"/>
+    <StackPanel VerticalAlignment="Center">
+     <TextBlock Text="Sistema de Control Académico" FontSize="18" FontWeight="SemiBold"/>
+     <TextBlock Text="Liceo Bolivariano Clarisa Este de Trejo" FontSize="12" Foreground="#5B6B60"/>
+    </StackPanel>
+   </StackPanel>
+   <TextBlock x:Name="Estado" Text="Preparando la instalación…" TextWrapping="Wrap" Margin="0,22,0,10"/>
+   <ProgressBar x:Name="Avance" Height="8" Minimum="0" Maximum="100" Foreground="#126D3D" Background="#DCE5DF" BorderThickness="0"/>
+   <Button x:Name="Cerrar" Content="Cerrar" Click="CerrarVentana" HorizontalAlignment="Right" Margin="0,18,0,0" Padding="18,8" Visibility="Collapsed"/>
+  </StackPanel>
+ </Border>
+</Window>

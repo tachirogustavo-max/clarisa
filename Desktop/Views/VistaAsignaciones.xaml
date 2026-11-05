@@ -1,0 +1,36 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Clarisa.Desktop.Views.VistaAsignaciones" d:DataContext="{d:DesignInstance Type=diseno:DatosAsignaciones, IsDesignTimeCreatable=True}" mc:Ignorable="d">
+ <UserControl.Resources>
+  <DataTemplate x:Key="FormularioAsignacion">
+   <StackPanel>
+    <StackPanel>
+     <StackPanel.Style>
+      <Style TargetType="StackPanel">
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding Formulario.Nuevo}" Value="False">
+         <Setter Property="IsEnabled" Value="False"/>
+        </DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </StackPanel.Style>
+     <Label Content="Sección" Style="{StaticResource Etiqueta}"/>
+     <ComboBox ItemsSource="{Binding Formulario.Secciones}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formulario.Seccion}" AutomationProperties.Name="Sección de la asignación"/>
+     <TextBlock Text="{Binding Formulario[Seccion]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+     <Label Content="Materia" Style="{StaticResource Etiqueta}"/>
+     <ComboBox ItemsSource="{Binding Formulario.Materias}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formulario.Materia}" AutomationProperties.Name="Materia de la asignación"/>
+     <TextBlock Text="{Binding Formulario[Materia]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+    </StackPanel>
+    <Label Content="Docente" Style="{StaticResource Etiqueta}"/>
+    <ComboBox ItemsSource="{Binding Formulario.Docentes}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formulario.Docente}" AutomationProperties.Name="Docente de la asignación"/>
+    <TextBlock Text="{Binding Formulario[Docente]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+    <TextBlock Text="Las notas se conservan cuando cambia el docente de una materia." Foreground="{DynamicResource TextoSecundario}" FontSize="12"/>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <controles:ListadoCatalogo Editor="{StaticResource FormularioAsignacion}">
+  <controles:ListadoCatalogo.Columnas>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Sección" Binding="{Binding Seccion}" MinWidth="120" Width="120"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Materia" Binding="{Binding Materia}" Width="*" MinWidth="180"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Docente" Binding="{Binding Docente}" Width="2*" MinWidth="180"/>
+  </controles:ListadoCatalogo.Columnas>
+ </controles:ListadoCatalogo>
+</UserControl>

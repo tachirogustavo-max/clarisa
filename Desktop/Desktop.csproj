@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <Resource Include="Resources/Fonts/*.ttf" />
+    <Resource Include="Resources/Identity/*.png" />
+    <Resource Include="Resources/Identity/*.ico" />
+    <None Update="Resources/Fonts/*-OFL.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Clarisa.Desktop</AssemblyName>
+    <RootNamespace>Clarisa.Desktop</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <StartupObject>Clarisa.Desktop.Programa</StartupObject>
+    <ApplicationIcon>Resources/Identity/clarisa.ico</ApplicationIcon>
+  </PropertyGroup>
+
+</Project>

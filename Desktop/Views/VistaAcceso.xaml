@@ -1,0 +1,136 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:modelos="clr-namespace:Clarisa.Desktop.Presentation.Models" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" xmlns:comportamientos="clr-namespace:Clarisa.Desktop.Presentation.Behaviors" xmlns:convertidores="clr-namespace:Clarisa.Desktop.Presentation.Converters" x:Class="Clarisa.Desktop.Views.VistaAcceso" mc:Ignorable="d" d:DesignWidth="1120" d:DesignHeight="780" d:DataContext="{d:DesignInstance Type=modelos:ModeloAcceso, IsDesignTimeCreatable=True}" FontFamily="{DynamicResource FuenteInterfaz}" Foreground="{DynamicResource Tinta}" comportamientos:AnimacionEntrada.Activa="True">
+ <UserControl.Resources>
+  <convertidores:EspacioCompacto x:Key="EspacioCompacto"/>
+ </UserControl.Resources>
+ <UserControl.Tag>
+  <MultiBinding Converter="{StaticResource EspacioCompacto}">
+   <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
+   <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
+  </MultiBinding>
+ </UserControl.Tag>
+ <Grid Background="White">
+  <Grid.RowDefinitions>
+   <RowDefinition/>
+   <RowDefinition Height="Auto"/>
+  </Grid.RowDefinitions>
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <controles:MarcoInstitucional Contorno="{DynamicResource Acento}" Relleno="White" Corte="28" MaxWidth="850" VerticalAlignment="Center">
+    <controles:MarcoInstitucional.Style>
+     <Style TargetType="controles:MarcoInstitucional">
+      <Setter Property="MargenInterior" Value="44,30"/>
+      <Setter Property="Margin" Value="30,28"/>
+      <Style.Triggers>
+       <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+        <Setter Property="MargenInterior" Value="28,18"/>
+        <Setter Property="Margin" Value="24,18"/>
+       </DataTrigger>
+      </Style.Triggers>
+     </Style>
+    </controles:MarcoInstitucional.Style>
+    <Grid>
+     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+     </Grid.RowDefinitions>
+     <Grid Margin="0,0,0,22">
+      <Grid.ColumnDefinitions>
+       <ColumnDefinition/>
+       <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Image HorizontalAlignment="Left" Stretch="Uniform" AutomationProperties.Name="Liceo Bolivariano Clarisa Este de Trejo">
+       <Image.Style>
+        <Style TargetType="Image">
+         <Setter Property="Width" Value="190"/>
+         <Style.Triggers>
+          <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+           <Setter Property="Width" Value="122"/>
+          </DataTrigger>
+         </Style.Triggers>
+        </Style>
+       </Image.Style>
+       <Image.Source>
+        <BitmapImage UriSource="/Clarisa.Desktop;component/Resources/Identity/logo-liceo.png" DecodePixelWidth="480"/>
+       </Image.Source>
+      </Image>
+      <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="24,0,0,0">
+       <TextBlock Text="Sistema de" FontSize="14" Foreground="{DynamicResource TextoSecundario}" Margin="0,0,0,2"/>
+       <TextBlock Text="Control" FontFamily="{StaticResource FuenteEditorial}" FontSize="29"/>
+       <TextBlock Text="académico" FontFamily="{StaticResource FuenteEditorial}" FontSize="29"/>
+       <Border Height="2" Width="30" HorizontalAlignment="Left" Background="{DynamicResource RojoInstitucional}" Margin="0,9,0,0"/>
+      </StackPanel>
+     </Grid>
+     <Border Grid.Row="1" BorderBrush="{DynamicResource Borde}" BorderThickness="0,1,0,0" Padding="0,24,0,0">
+      <TextBlock Text="Iniciar sesión" FontSize="27" FontWeight="SemiBold"/>
+     </Border>
+     <StackPanel Grid.Row="2" Margin="0,22,0,0">
+      <Label Content="_Usuario" Target="{Binding ElementName=CampoUsuario}" Style="{StaticResource Etiqueta}"/>
+      <TextBox x:Name="CampoUsuario" Text="{Binding Usuario, UpdateSourceTrigger=PropertyChanged}" MaxLength="40" IsEnabled="{Binding Disponible}" AutomationProperties.Name="Usuario"/>
+      <TextBlock Text="{Binding ErrorUsuario}" Style="{StaticResource ErrorCampo}" AutomationProperties.LiveSetting="Polite"/>
+     </StackPanel>
+     <StackPanel Grid.Row="3" Margin="0,8,0,0">
+      <Label Content="_Contraseña" Target="{Binding ElementName=CampoClave}" Style="{StaticResource Etiqueta}"/>
+      <controles:CampoClaveSeguro x:Name="CampoClave" IsEnabled="{Binding Disponible}"/>
+      <TextBlock Text="{Binding ErrorClave}" Style="{StaticResource ErrorCampo}" AutomationProperties.LiveSetting="Polite"/>
+      <TextBlock Text="Bloq Mayús está activado." FontSize="12" Foreground="{DynamicResource AzulInstitucional}" AutomationProperties.LiveSetting="Polite" Margin="0,5,0,0">
+       <TextBlock.Style>
+        <Style TargetType="TextBlock">
+         <Style.Triggers>
+          <DataTrigger Binding="{Binding MayusculasActivas, ElementName=CampoClave}" Value="False">
+           <Setter Property="Visibility" Value="Collapsed"/>
+          </DataTrigger>
+         </Style.Triggers>
+        </Style>
+       </TextBlock.Style>
+      </TextBlock>
+     </StackPanel>
+     <StackPanel Grid.Row="4" Margin="0,12,0,0">
+      <Border Background="{DynamicResource FondoError}" CornerRadius="4" Padding="12" Margin="0,0,0,12">
+       <Border.Style>
+        <Style TargetType="Border">
+         <Style.Triggers>
+          <DataTrigger Binding="{Binding ErrorGeneral}" Value="">
+           <Setter Property="Visibility" Value="Collapsed"/>
+          </DataTrigger>
+         </Style.Triggers>
+        </Style>
+       </Border.Style>
+       <TextBlock Text="{Binding ErrorGeneral}" TextWrapping="Wrap" Foreground="{DynamicResource Error}" AutomationProperties.LiveSetting="Assertive"/>
+      </Border>
+      <Button Content="{Binding TextoBoton}" Style="{StaticResource BotonPrincipal}" IsDefault="True" IsEnabled="{Binding Disponible}" Click="IniciarAcceso">
+       <Button.ContentTemplate>
+        <DataTemplate>
+         <StackPanel Orientation="Horizontal">
+          <TextBlock Text="{Binding}" Foreground="White"/>
+          <Path Data="M 0,5 L 16,5 M 11,0 L 16,5 L 11,10" Stroke="White" StrokeThickness="1.5" Width="16" Height="10" Stretch="Uniform" VerticalAlignment="Center" Margin="15,0,0,0"/>
+         </StackPanel>
+        </DataTemplate>
+       </Button.ContentTemplate>
+      </Button>
+      <TextBlock Text="{Binding Estado}" Foreground="{DynamicResource TextoSecundario}" Margin="0,8,0,0" AutomationProperties.LiveSetting="Polite"/>
+     </StackPanel>
+     <Expander x:Name="Conexion" Grid.Row="5" Header="Conexión al servidor" Foreground="{DynamicResource TextoSecundario}" Margin="0,18,0,0">
+      <StackPanel Margin="0,12,0,0">
+       <Label Content="_Dirección del servidor" Target="{Binding ElementName=CampoServidor}" Style="{StaticResource Etiqueta}"/>
+       <TextBox x:Name="CampoServidor" Text="{Binding Servidor, UpdateSourceTrigger=PropertyChanged}" MaxLength="250" IsEnabled="{Binding Disponible}" AutomationProperties.Name="Dirección del servidor"/>
+       <TextBlock Text="{Binding ErrorServidor}" Style="{StaticResource ErrorCampo}" AutomationProperties.LiveSetting="Polite"/>
+      </StackPanel>
+     </Expander>
+     <Expander x:Name="AyudaCuenta" Grid.Row="6" Header="Olvidé mi contraseña" Expanded="MostrarAyudaCuenta" Foreground="{DynamicResource TextoSecundario}" Margin="0,18,0,0">
+      <StackPanel Margin="0,12,0,0">
+       <TextBlock Text="Si eres docente" FontWeight="SemiBold" Foreground="{DynamicResource Tinta}"/>
+       <TextBlock Text="Solicita a la dirección que restablezca tu contraseña. Después podrás cambiarla desde el menú de tu cuenta." TextWrapping="Wrap" Margin="0,4,0,12"/>
+       <TextBlock Text="Si eres administrador" FontWeight="SemiBold" Foreground="{DynamicResource Tinta}"/>
+       <TextBlock Text="Otro administrador puede restablecer tu acceso. Si no queda ninguna cuenta disponible, el responsable del servidor debe realizar la recuperación local. No se recuperan contraseñas por correo ni desde una estación." TextWrapping="Wrap" Margin="0,4,0,0"/>
+      </StackPanel>
+     </Expander>
+    </Grid>
+   </controles:MarcoInstitucional>
+  </ScrollViewer>
+  <TextBlock Grid.Row="1" Text="San Fernando de Apure" HorizontalAlignment="Center" Foreground="{DynamicResource TextoSecundario}" FontSize="11" Margin="24,8,24,18"/>
+ </Grid>
+</UserControl>

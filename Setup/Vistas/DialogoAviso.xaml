@@ -1,0 +1,19 @@
+<Window x:Class="Clarisa.Setup.Vistas.DialogoAviso"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Información" Style="{StaticResource VentanaInstitucional}"
+        Width="560" Height="360" MinWidth="420" MinHeight="280"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize">
+  <Border Background="White" Padding="28,24">
+    <Grid>
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}"
+                 FontFamily="{StaticResource Editorial}" FontSize="25" Margin="0,0,0,16"/>
+      <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <TextBlock x:Name="Mensaje" Margin="0,0,12,0"/>
+      </ScrollViewer>
+      <Button Grid.Row="2" Content="Cerrar" IsCancel="True" IsDefault="True" Style="{StaticResource Principal}"
+              HorizontalAlignment="Right" Margin="0,20,0,0"/>
+    </Grid>
+  </Border>
+</Window>

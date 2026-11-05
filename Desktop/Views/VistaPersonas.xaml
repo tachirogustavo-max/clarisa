@@ -1,0 +1,76 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" x:Class="Clarisa.Desktop.Views.VistaPersonas" mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="760" d:DataContext="{d:DesignInstance Type=diseno:DatosPersonas, IsDesignTimeCreatable=True}">
+ <UserControl.Resources>
+  <DataTemplate x:Key="FormularioCatalogo">
+   <StackPanel>
+    <Label Content="_Cédula" Target="{Binding ElementName=CampoCedula}" Style="{StaticResource Etiqueta}"/>
+    <TextBox x:Name="CampoCedula" Text="{Binding Formulario.Cedula, UpdateSourceTrigger=PropertyChanged}" MaxLength="24"/>
+    <TextBlock Text="{Binding Formulario[Cedula]}" Style="{StaticResource ErrorCampo}"/>
+    <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextoSecundario}" Margin="0,0,0,20">
+     <TextBlock.Style>
+      <Style TargetType="TextBlock">
+       <Setter Property="Text" Value="Opcional si el estudiante aún no tiene cédula. Admite número con o sin prefijo."/>
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding EsDocente}" Value="True">
+         <Setter Property="Text" Value="Admite número con o sin prefijo."/>
+        </DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </TextBlock.Style>
+    </TextBlock>
+    <Label Content="_Nombres" Target="{Binding ElementName=CampoNombres}" Style="{StaticResource Etiqueta}"/>
+    <TextBox x:Name="CampoNombres" Text="{Binding Formulario.Nombres, UpdateSourceTrigger=PropertyChanged}" MaxLength="80"/>
+    <TextBlock Text="{Binding Formulario[Nombres]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,18"/>
+    <Label Content="_Apellidos" Target="{Binding ElementName=CampoApellidos}" Style="{StaticResource Etiqueta}"/>
+    <TextBox x:Name="CampoApellidos" Text="{Binding Formulario.Apellidos, UpdateSourceTrigger=PropertyChanged}" MaxLength="80"/>
+    <TextBlock Text="{Binding Formulario[Apellidos]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,18"/>
+    <StackPanel>
+     <StackPanel.Style>
+      <Style TargetType="StackPanel">
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding EsDocente}" Value="True">
+         <Setter Property="Visibility" Value="Collapsed"/>
+        </DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </StackPanel.Style>
+     <Label Content="_Fecha de nacimiento · opcional" Target="{Binding ElementName=CampoNacimiento}" Style="{StaticResource Etiqueta}"/>
+     <controles:CampoFechaEditable x:Name="CampoNacimiento" Texto="{Binding Formulario.TextoFechaNacimiento, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Fecha de nacimiento"/>
+     <TextBlock Text="{Binding Formulario[FechaNacimiento]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,18" AutomationProperties.LiveSetting="Polite"/>
+    </StackPanel>
+    <StackPanel>
+     <StackPanel.Style>
+      <Style TargetType="StackPanel">
+       <Setter Property="Visibility" Value="Collapsed"/>
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding EsDocente}" Value="True">
+         <Setter Property="Visibility" Value="Visible"/>
+        </DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </StackPanel.Style>
+     <Label Content="Correo electrónico · opcional" Style="{StaticResource Etiqueta}"/>
+     <TextBox Text="{Binding Formulario.Correo, UpdateSourceTrigger=PropertyChanged}" MaxLength="160" AutomationProperties.Name="Correo electrónico"/>
+     <TextBlock Text="{Binding Formulario[Correo]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,18"/>
+    </StackPanel>
+    <CheckBox Content="Registro activo" IsChecked="{Binding Formulario.Activo}" Margin="0,6,0,12">
+     <CheckBox.Style>
+      <Style TargetType="CheckBox">
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding Formulario.Nuevo}" Value="True">
+         <Setter Property="Visibility" Value="Collapsed"/>
+        </DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </CheckBox.Style>
+    </CheckBox>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <controles:ListadoCatalogo Editor="{StaticResource FormularioCatalogo}">
+  <controles:ListadoCatalogo.Columnas>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Apellidos y nombres" Binding="{Binding NombreCompleto}" Width="2*" MinWidth="210"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Cédula" Binding="{Binding Cedula, TargetNullValue='Sin cédula'}" Width="*" MinWidth="130"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Estado" Binding="{Binding Estado}" MinWidth="120" Width="120"/>
+  </controles:ListadoCatalogo.Columnas>
+ </controles:ListadoCatalogo>
+</UserControl>

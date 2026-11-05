@@ -1,0 +1,27 @@
+<UserControl x:Class="Clarisa.Desktop.Views.VistaPlanEstudios" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:c="clr-namespace:Clarisa.Desktop.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:m="clr-namespace:Clarisa.Desktop.Presentation.Models" mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="760" d:DataContext="{d:DesignInstance Type=m:ModeloPlanEstudios, IsDesignTimeCreatable=True}">
+ <UserControl.Resources>
+  <DataTemplate x:Key="Editor">
+   <StackPanel>
+    <TextBlock Text="El año es el seleccionado en el listado. Cambiar la evaluación no modifica las notas ya guardadas." TextWrapping="Wrap" Foreground="{DynamicResource TextoSecundario}" Margin="0,0,0,18"/>
+    <Label Content="Grado" Style="{StaticResource Etiqueta}"/>
+    <ComboBox ItemsSource="{Binding Formulario.Grados}" SelectedItem="{Binding Formulario.Grado}" IsEnabled="{Binding Formulario.IdentidadEditable}"/>
+    <TextBlock Text="{Binding Formulario.AyudaGrados}" FontSize="12" Foreground="{DynamicResource TextoSecundario}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+    <TextBlock Text="{Binding Formulario[Grado]}" Style="{StaticResource ErrorCampo}"/>
+    <Label Content="Materia" Style="{StaticResource Etiqueta}" Margin="0,12,0,0"/>
+    <ComboBox ItemsSource="{Binding Formulario.Materias}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formulario.Materia}" IsEnabled="{Binding Formulario.IdentidadEditable}"/>
+    <TextBlock Text="{Binding Formulario[Materia]}" Style="{StaticResource ErrorCampo}"/>
+    <c:SelectorEvaluacion Modalidad="{Binding Formulario.Modalidad, Mode=TwoWay}" Margin="0,18,0,12"/>
+    <CheckBox Content="Esta materia no se cursa en este grado" IsChecked="{Binding Formulario.NoSeCursa}"/>
+    <TextBlock Text="{Binding Formulario[Modalidad]}" Style="{StaticResource ErrorCampo}"/>
+    <TextBlock Text="No cursada se representa con un guion en el boletín. No equivale a una nota pendiente ni a una exoneración." TextWrapping="Wrap" Foreground="{DynamicResource TextoSecundario}" FontSize="12" Margin="0,12,0,0"/>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <c:ListadoCatalogo Editor="{StaticResource Editor}">
+  <c:ListadoCatalogo.Columnas>
+   <DataGridTextColumn Header="Grado" Binding="{Binding Grado}" Width="150" ElementStyle="{StaticResource TextoTabla}"/>
+   <DataGridTextColumn Header="Materia" Binding="{Binding Materia}" Width="*" ElementStyle="{StaticResource TextoTabla}"/>
+   <DataGridTextColumn Header="Evaluación" Binding="{Binding Evaluacion}" Width="160" ElementStyle="{StaticResource TextoTabla}"/>
+  </c:ListadoCatalogo.Columnas>
+ </c:ListadoCatalogo>
+</UserControl>

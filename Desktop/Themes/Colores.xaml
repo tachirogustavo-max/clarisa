@@ -1,0 +1,18 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <FontFamily x:Key="FuenteInterfaz">/Clarisa.Desktop;component/Resources/Fonts/#Instrument Sans</FontFamily>
+ <FontFamily x:Key="FuenteEditorial">/Clarisa.Desktop;component/Resources/Fonts/#Source Serif 4 14pt</FontFamily>
+ <SolidColorBrush x:Key="FondoAplicacion" Color="#FFFFFF"/>
+ <SolidColorBrush x:Key="Superficie" Color="#FFFFFF"/>
+ <SolidColorBrush x:Key="Tinta" Color="#18392A"/>
+ <SolidColorBrush x:Key="TextoSecundario" Color="#59665E"/>
+ <SolidColorBrush x:Key="Borde" Color="#C5CEC3"/>
+ <SolidColorBrush x:Key="Acento" Color="#126C36"/>
+ <SolidColorBrush x:Key="AcentoActivo" Color="#0C5027"/>
+ <SolidColorBrush x:Key="AzulInstitucional" Color="#202B76"/>
+ <SolidColorBrush x:Key="RojoInstitucional" Color="#BC1212"/>
+ <SolidColorBrush x:Key="DetalleInstitucional" Color="#202B76"/>
+ <SolidColorBrush x:Key="Foco" Color="#202B76"/>
+ <SolidColorBrush x:Key="Error" Color="#A52C35"/>
+ <SolidColorBrush x:Key="FondoError" Color="#FFF1F2"/>
+ <SolidColorBrush x:Key="FondoCampo" Color="#FAFBF8"/>
+</ResourceDictionary>

@@ -1,0 +1,49 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" x:Class="Clarisa.Desktop.Views.VistaMaterias" mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="760" d:DataContext="{d:DesignInstance Type=diseno:DatosMaterias, IsDesignTimeCreatable=True}">
+ <UserControl.Resources>
+  <Style x:Key="ErrorMateria" TargetType="TextBlock" BasedOn="{StaticResource ErrorCampo}"><Style.Triggers>
+   <Trigger Property="Text" Value=""><Setter Property="Visibility" Value="Collapsed"/></Trigger>
+  </Style.Triggers></Style>
+  <DataTemplate x:Key="FormularioCatalogo">
+   <StackPanel>
+    <Label Content="_Código" Target="{Binding ElementName=CampoCodigo}" Style="{StaticResource Etiqueta}"/>
+    <TextBox x:Name="CampoCodigo" Text="{Binding Formulario.Codigo, UpdateSourceTrigger=PropertyChanged}" MaxLength="20"/>
+    <TextBlock Text="{Binding Formulario[Codigo]}" Style="{StaticResource ErrorMateria}"/>
+    <Label Content="_Nombre de la materia" Target="{Binding ElementName=CampoMateria}" Style="{StaticResource Etiqueta}" Margin="0,16,0,0"/>
+    <TextBox x:Name="CampoMateria" Text="{Binding Formulario.Nombre, UpdateSourceTrigger=PropertyChanged}" MaxLength="100"/>
+    <TextBlock Text="{Binding Formulario[Nombre]}" Style="{StaticResource ErrorMateria}"/>
+    <CheckBox Content="Materia activa" IsChecked="{Binding Formulario.Activa}" Margin="0,14,0,0">
+     <CheckBox.Style><Style TargetType="CheckBox"><Style.Triggers><DataTrigger Binding="{Binding Formulario.Nuevo}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></CheckBox.Style>
+    </CheckBox>
+    <StackPanel Margin="0,18,0,0">
+     <StackPanel.Style><Style TargetType="StackPanel"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers>
+      <DataTrigger Binding="{Binding Formulario.ConfigurarEvaluacion}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger>
+     </Style.Triggers></Style></StackPanel.Style>
+     <TextBlock Text="Cómo se evalúa" FontFamily="{DynamicResource FuenteEditorial}" FontSize="23"/>
+     <TextBlock Text="Elige el año y el grado de esta evaluación. Puede variar entre grados." Foreground="{DynamicResource TextoSecundario}" TextWrapping="Wrap" Margin="0,7,0,14"/>
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="14"/><ColumnDefinition/></Grid.ColumnDefinitions>
+      <StackPanel><Label Content="Año escolar" Style="{StaticResource Etiqueta}"/>
+       <ComboBox ItemsSource="{Binding Formulario.Anios}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formulario.Anio, UpdateSourceTrigger=PropertyChanged}"/>
+       <TextBlock Text="{Binding Formulario[Anio]}" Style="{StaticResource ErrorMateria}"/>
+      </StackPanel>
+      <StackPanel Grid.Column="2"><Label Content="Grado" Style="{StaticResource Etiqueta}"/>
+       <ComboBox ItemsSource="{Binding Formulario.Grados}" SelectedItem="{Binding Formulario.Grado}" AutomationProperties.Name="Grado de la evaluación"/>
+       <TextBlock Text="{Binding Formulario[Grado]}" Style="{StaticResource ErrorMateria}"/>
+      </StackPanel>
+     </Grid>
+     <TextBlock Text="{Binding Formulario.AyudaGrados}" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource TextoSecundario}" Margin="0,8,0,0"/>
+     <controles:SelectorEvaluacion Modalidad="{Binding Formulario.Modalidad, Mode=TwoWay}" Margin="0,18,0,0"/>
+     <TextBlock Text="{Binding Formulario[Modalidad]}" Style="{StaticResource ErrorMateria}"/>
+     <TextBlock Text="Las letras se definen en la escala del año. No tienen equivalencia numérica." FontSize="12" Foreground="{DynamicResource TextoSecundario}" Margin="0,8,0,0"/>
+    </StackPanel>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <controles:ListadoCatalogo Editor="{StaticResource FormularioCatalogo}">
+  <controles:ListadoCatalogo.Columnas>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Código" Binding="{Binding Codigo}" MinWidth="150" Width="150"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Materia" Binding="{Binding Nombre}" Width="*" MinWidth="250"/>
+   <DataGridCheckBoxColumn ElementStyle="{StaticResource CasillaConsulta}" Header="Activa" Binding="{Binding Activa}" MinWidth="100" Width="100"/>
+  </controles:ListadoCatalogo.Columnas>
+ </controles:ListadoCatalogo>
+</UserControl>

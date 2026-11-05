@@ -1,0 +1,33 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controles="clr-namespace:Clarisa.Desktop.Controls" xmlns:diseno="clr-namespace:Clarisa.Desktop.Design" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Clarisa.Desktop.Views.VistaSecciones" d:DataContext="{d:DesignInstance Type=diseno:DatosSecciones, IsDesignTimeCreatable=True}" mc:Ignorable="d">
+ <UserControl.Resources>
+  <DataTemplate x:Key="FormularioSeccion">
+   <StackPanel>
+    <Label Content="Año escolar" Style="{StaticResource Etiqueta}"/>
+    <ComboBox ItemsSource="{Binding Formulario.Anios}" DisplayMemberPath="Nombre" SelectedItem="{Binding Formulario.Anio}" AutomationProperties.Name="Año escolar de la sección">
+     <ComboBox.Style>
+      <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+       <Style.Triggers>
+        <DataTrigger Binding="{Binding Formulario.Nuevo}" Value="False">
+         <Setter Property="IsEnabled" Value="False"/>
+        </DataTrigger>
+       </Style.Triggers>
+      </Style>
+     </ComboBox.Style>
+    </ComboBox>
+    <TextBlock Text="{Binding Formulario[Anio]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+    <Label Content="_Año" Target="{Binding ElementName=CampoGrado}" Style="{StaticResource Etiqueta}"/>
+    <ComboBox x:Name="CampoGrado" ItemsSource="{Binding Formulario.Grados}" SelectedItem="{Binding Formulario.Grado}" MaxWidth="240" HorizontalAlignment="Left" MinWidth="180" AutomationProperties.Name="Año de la sección"/>
+    <TextBlock Text="{Binding Formulario[Grado]}" Style="{StaticResource ErrorCampo}" Margin="0,6,0,20"/>
+    <Label Content="_Sección" Target="{Binding ElementName=CampoSeccion}" Style="{StaticResource Etiqueta}"/>
+    <TextBox x:Name="CampoSeccion" Text="{Binding Formulario.Nombre, UpdateSourceTrigger=PropertyChanged}" MaxLength="20"/>
+    <TextBlock Text="{Binding Formulario[Nombre]}" Style="{StaticResource ErrorCampo}"/>
+   </StackPanel>
+  </DataTemplate>
+ </UserControl.Resources>
+ <controles:ListadoCatalogo Editor="{StaticResource FormularioSeccion}">
+  <controles:ListadoCatalogo.Columnas>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Año" Binding="{Binding Grado}" Width="*" MinWidth="170"/>
+   <DataGridTextColumn ElementStyle="{StaticResource TextoTabla}" Header="Sección" Binding="{Binding Nombre}" Width="*" MinWidth="150"/>
+  </controles:ListadoCatalogo.Columnas>
+ </controles:ListadoCatalogo>
+</UserControl>

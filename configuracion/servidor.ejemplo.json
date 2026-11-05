@@ -1,0 +1,40 @@
+{
+  "DatosAplicacion": {
+    "Servidor": "127.0.0.1",
+    "Puerto": 3306,
+    "Base": "",
+    "Usuario": "",
+    "Clave": "",
+    "SegundosConexion": 5,
+    "SegundosComando": 30,
+    "SegundosEsperaBloqueo": 10,
+    "MaximoConexiones": 20
+  },
+  "Respaldos": {
+    "Directorio": "",
+    "ArchivoClave": "",
+    "ArchivoBaseActiva": "",
+    "ArchivoExclusion": "",
+    "PrefijoBaseRecuperada": "liceo_rec_",
+    "MaximoBytesCifrado": 268435456,
+    "MaximoBytesDescomprimidos": 1073741824,
+    "MinimoBytesLibres": 536870912
+  },
+  "Seguridad": {
+    "PermitirHttpLoopback": false,
+    "ArchivoClavesProhibidas": "Resources/claves-prohibidas.txt"
+  },
+  "Kestrel": {
+    "Endpoints": {
+      "Https": {
+        "Url": "https://127.0.0.1:5189",
+        "Certificate": {
+          "Subject": "",
+          "Store": "My",
+          "Location": "LocalMachine",
+          "AllowInvalid": false
+        }
+      }
+    }
+  }
+}

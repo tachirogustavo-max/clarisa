@@ -1,0 +1,18 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Class="Clarisa.Desktop.Controls.BarraPaginacion">
+ <Grid Margin="0,12,0,0">
+  <Grid.ColumnDefinitions>
+   <ColumnDefinition/>
+   <ColumnDefinition Width="Auto"/>
+   <ColumnDefinition Width="Auto"/>
+  </Grid.ColumnDefinitions>
+  <TextBlock Text="{Binding TextoPagina}" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextoSecundario}"/>
+  <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="14,0" VerticalAlignment="Center">
+   <TextBlock Text="Filas" VerticalAlignment="Center" FontSize="12" Margin="0,0,8,0"/>
+   <ComboBox ItemsSource="{Binding TamaniosPagina}" SelectedItem="{Binding TamanoPagina, Mode=TwoWay}" Width="68" Padding="6" AutomationProperties.Name="Filas por página"/>
+  </StackPanel>
+  <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+   <Button Content="‹" Command="{Binding PaginaAnterior}" Style="{StaticResource BotonTexto}" Padding="12,5" AutomationProperties.Name="Página anterior"/>
+   <Button Content="›" Command="{Binding PaginaSiguiente}" Style="{StaticResource BotonTexto}" Padding="12,5" Margin="6,0,0,0" AutomationProperties.Name="Página siguiente"/>
+  </StackPanel>
+ </Grid>
+</UserControl>
